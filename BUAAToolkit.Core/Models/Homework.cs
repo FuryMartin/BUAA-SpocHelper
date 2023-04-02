@@ -44,10 +44,15 @@ public class HomeworkDetails
     [JsonProperty("fjmc")]
     public string AttachedFileName
     {
-        get => _AttachedFileName; set => _AttachedFileName = value ?? "无";
+        get => _AttachedFileName; 
+        set
+        {
+            AttacedFileExisted = (value==null) ? false : true;
+            _AttachedFileName = value ?? Description.Replace("<p>","").Replace("</p>","");
+        }
     }
 
-    public bool AttacedFileExisted => _AttachedFileName != null;
+    public bool AttacedFileExisted { get; set; }
 
     [JsonProperty("fjzykssj")]
     public string BeginDate

@@ -14,30 +14,6 @@ namespace BUAAToolkit.ViewModels;
 public partial class LoginViewModel : ObservableRecipient
 {
     readonly ISSOService ssoService = new SSOService();
-    static readonly IFileService fileService = new FileService();
-    readonly ILocalSettingsService Settings;
-
-    public LoginViewModel()
-    {
-        var options = Options.Create(new LocalSettingsOptions
-        {
-        });
-        Settings = new LocalSettingsService(fileService, options);
-        LoadAccount();
-    }
-
-    public async void LoadAccount()
-    {
-        Username = await Settings.ReadSettingAsync<string>("Username");
-        Password = await Settings.ReadSettingAsync<string>("Password");
-        SetAccount();
-    }
-
-    public void SetAccount()
-    {
-        Account.Username = Username;
-        Account.Password = Password;
-    }
 
     [ObservableProperty]
     public string? username;
@@ -45,14 +21,22 @@ public partial class LoginViewModel : ObservableRecipient
     [ObservableProperty]
     public string? password;
 
+    public LoginViewModel()
+    {
+        LoadAccount();
+    }
+
+    public void LoadAccount()
+    {
+        Username = Account.Username;
+        Password = Account.Password;
+    }
+
     [ICommand]
     public async void Login()
     {
-        SetAccount();
-        Debug.WriteLine("UserName:" + Account.Username);
-        Debug.WriteLine("PassWord:" + Account.Password);
+        AccountService.SetAccount(Username, Password);
         var success = await ssoService.SSOLoginAsync();
-
         if (!success)
         {
             Debug.WriteLine("Failed");
@@ -60,8 +44,8 @@ public partial class LoginViewModel : ObservableRecipient
         else
         {
             Debug.WriteLine("Success");
-            await Settings.SaveSettingAsync("Username", Username);
-            await Settings.SaveSettingAsync("Password", Password);
+            await AccountService.Settings.SaveSettingAsync("Username", Username);
+            await AccountService.Settings.SaveSettingAsync("Password", Password);
         }
     }
 

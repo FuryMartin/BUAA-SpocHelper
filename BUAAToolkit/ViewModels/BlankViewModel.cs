@@ -3,6 +3,7 @@ using BUAAToolkit.Core.Contracts.Services;
 using BUAAToolkit.Core.Services;
 using BUAAToolkit.Contracts.ViewModels;
 using BUAAToolkit.Core.Models;
+using BUAAToolkit.Services;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 
@@ -22,6 +23,7 @@ public partial class BlankViewModel : ObservableRecipient, INavigationAware
     public BlankViewModel()
     {
         Courses = new ObservableCollection<Course>();
+        AccountService.LoadAccount();
     }
 
     public void OnNavigatedFrom()

@@ -8,7 +8,7 @@
     xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
-  <!--<UserControl.Resources>
+    <!--<UserControl.Resources>
         <Style x:Key="GridSettingBlockStyle" TargetType="Grid">
             <Setter Property="BorderBrush" Value="{ThemeResource ExpanderHeaderBorderBrush}" />
             <Setter Property="BorderThickness" Value="{ThemeResource ExpanderHeaderBorderThickness}" />
@@ -18,71 +18,76 @@
         </Style>
     </UserControl.Resources>-->
 
-  <Page.Resources>
-    <converters:StringFormatConverter x:Key="StringFormatConverter" />
-    <DataTemplate x:Key="CourseTemplate" x:DataType="models:Course">
-      <Expander x:Name="Expander" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="0">
-        <Expander.Header>
-          <Grid ColumnSpacing="10" VerticalAlignment="Center">
-            <Grid.RowDefinitions>
-              <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="150"/>
-              <ColumnDefinition Width="*"/>
-              <ColumnDefinition Width="200"/>
-            </Grid.ColumnDefinitions>
-            <FontIcon Grid.Column="0"  Glyph="&#xF156;" Margin="0 0 0 0 " HorizontalAlignment="Center"/>
-            <TextBlock Grid.Column="1"  Text="{Binding Name}" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center"/>
-            <TextBlock Grid.Column="2"  Text="{Binding UnSubmitedCount,Converter={StaticResource StringFormatConverter}, ConverterParameter='{}新作业：{0}'}"  FontSize="14" HorizontalAlignment="Center"/>
-          </Grid>
-        </Expander.Header>
-        <Expander.Content>
-          <ItemsRepeater
+    <Page.Resources>
+        <converters:StringFormatConverter x:Key="StringFormatConverter" />
+        
+        <converters:BoolToObjectConverter x:Key="BoolToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed"/>
+        <converters:BoolToObjectConverter x:Key="InverseBoolToVisibilityConverter" TrueValue="Collapsed" FalseValue="Visible"/>
+        
+        <DataTemplate x:Key="CourseTemplate" x:DataType="models:Course">
+            <Expander x:Name="Expander" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="0">
+                <Expander.Header>
+                    <Grid ColumnSpacing="10" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="200"/>
+                        </Grid.ColumnDefinitions>
+                        <FontIcon Grid.Column="0"  Glyph="&#xF156;" Margin="0 0 0 0 " HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="1"  Text="{Binding Name}" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="2"  Text="{Binding UnSubmitedCount, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}新作业：{0}'}"  FontSize="14" HorizontalAlignment="Center"/>
+                    </Grid>
+                </Expander.Header>
+                <Expander.Content>
+                    <ItemsRepeater
               ItemsSource="{Binding HomeworkList}"
               Layout="{StaticResource VerticalStackLayout}"
               ItemTemplate="{StaticResource HomeworkTemplate}" />
-        </Expander.Content>
-      </Expander>
-    </DataTemplate>
+                </Expander.Content>
+            </Expander>
+        </DataTemplate>
 
-    <DataTemplate x:Key="HomeworkTemplate" x:DataType="models:Homework">
-      <Grid HorizontalAlignment="Stretch" Margin="0 5 0 5">
-        <Grid.RowDefinitions>
-          <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="150"/>
-          <ColumnDefinition Width="*"/>
-          <ColumnDefinition Width="200"/>
-        </Grid.ColumnDefinitions>
-        <TextBlock Grid.Column="0" Margin="10 0 0 0" Text="{Binding Details[0].EndDate}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <HyperlinkButton  Grid.Column="1" Grid.Row="0" Margin="0 0 40 0" Content="附件" IsEnabled="{Binding Details[0].AttacedFileExisted}" ToolTipService.ToolTip="{Binding Details[0].AttachedFileName}" HorizontalAlignment="Center"/>
-        <Grid Grid.Column="2" Grid.Row="0" Margin="0 0 0 0" ColumnSpacing="8">
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-          </Grid.RowDefinitions>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-          </Grid.ColumnDefinitions>
-          <Button Grid.Column="0" Margin="0" Content="选择文件" HorizontalAlignment="Center"/>
-          <Button Grid.Column="1" Margin="0" Style="{StaticResource AccentButtonStyle}" Content="Commit" HorizontalAlignment="Center"/>
-        </Grid>
-      </Grid>
-    </DataTemplate>
-    <StackLayout x:Name="VerticalStackLayout" Orientation="Vertical" Spacing="8"/>
-  </Page.Resources>
+        <DataTemplate x:Key="HomeworkTemplate" x:DataType="models:Homework">
+            <Grid HorizontalAlignment="Stretch" Margin="0 5 0 5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Margin="10 0 0 0" Text="{Binding Details[0].EndDate}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <HyperlinkButton  Grid.Column="1" Grid.Row="0" Margin="0 0 40 0" Content="附件" IsEnabled="{Binding Details[0].AttacedFileExisted}" ToolTipService.ToolTip="{Binding Details[0].AttachedFileName}" Visibility="{Binding Details[0].AttacedFileExisted, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Grid.Row="0" Margin="0 0 40 0" Text="附件" Visibility="{Binding Details[0].AttacedFileExisted, Converter={StaticResource InverseBoolToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Gray" ToolTipService.ToolTip="{Binding Details[0].AttachedFileName}"/>
+                <Grid Grid.Column="2" Grid.Row="0" Margin="0 0 0 0" ColumnSpacing="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Margin="0" Content="选择文件" HorizontalAlignment="Center"/>
+                    <Button Grid.Column="1" Margin="0" Style="{StaticResource AccentButtonStyle}" Content="Commit" HorizontalAlignment="Center"/>
+                </Grid>
+            </Grid>
+        </DataTemplate>
+        <StackLayout x:Name="VerticalStackLayout" Orientation="Vertical" Spacing="8"/>
+    </Page.Resources>
 
-  <ScrollViewer HorizontalScrollBarVisibility="Auto"
+    <ScrollViewer HorizontalScrollBarVisibility="Auto"
             HorizontalScrollMode="Auto"
             VerticalScrollBarVisibility="Hidden"
             IsVerticalScrollChainingEnabled="False"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch">
-    <ItemsRepeater
+        <ItemsRepeater
            ItemsSource="{x:Bind ViewModel.Courses}"
            Layout="{StaticResource VerticalStackLayout}"
            ItemTemplate="{StaticResource CourseTemplate}" />
-  </ScrollViewer>
+    </ScrollViewer>
 </Page>
