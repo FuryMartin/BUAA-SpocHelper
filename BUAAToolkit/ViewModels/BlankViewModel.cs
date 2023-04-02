@@ -6,6 +6,7 @@ using BUAAToolkit.Core.Models;
 using BUAAToolkit.Services;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace BUAAToolkit.ViewModels;
 
@@ -52,5 +53,20 @@ public partial class BlankViewModel : ObservableRecipient, INavigationAware
             Courses.Add(course);
         }
         Debug.WriteLine("Break");
+    }
+
+    public void SubmitClicked(Homework? homework)
+    {
+        Debug.WriteLine(homework?.Details[0].cclj);
+        IFileService fileService = new FileService();
+        //fileService.Save("C:\\Users\\Fury\\Downloads", "homework.txt", homework?.Details[0].cclj);
+    }
+
+    public async void AttachmentClicked(Homework? homework)
+    {
+        var filename = homework?.Details[0].AttachmentName;
+        var cclj = homework?.Details[0].cclj;
+        var filePath = await spocService.DownloadAttachment(filename, cclj);
+        //_ = Task.Run(() => Process.Start(filePath));
     }
 }

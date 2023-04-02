@@ -5,7 +5,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using BUAAToolkit.Core.Contracts.Services;
 using BUAAToolkit.Core.Models;
-
+using System.Text;
+using System.Net.Http;
 
 namespace BUAAToolkit.Core.Services;
 public class SpocService : ISpocService
@@ -91,5 +92,30 @@ public class SpocService : ISpocService
             CourseList[i].HomeworkList.RemoveAll(homework => homework.UnSubmitedCount == 0);
         }
         CourseList.RemoveAll(course => course.HomeworkList.Count == 0);
+    }
+
+    public async Task<string> DownloadAttachment(string AttachmentName, string cclj)
+    {
+        var downloadUrl = "https://spoc.buaa.edu.cn/spoc/moocwdkc/downloadTask.do";
+        var encodedFJMC = Convert.ToBase64String(Encoding.ASCII.GetBytes(Uri.EscapeDataString(AttachmentName)));
+        var encodedCCLJ = Convert.ToBase64String(Encoding.ASCII.GetBytes(cclj));
+
+        var requestUrl = $"{downloadUrl}?fjmc={encodedFJMC}&cclj={encodedCCLJ}";
+
+        var response = await client.GetAsync(requestUrl);
+        if (response.IsSuccessStatusCode)
+        {
+            var content = await response.Content.ReadAsByteArrayAsync();
+            var fileName = Path.GetFileName(AttachmentName).ToLower(); // 将文件名中的后缀名部分转换为小写
+            var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", fileName);
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await fileStream.WriteAsync(content);
+            }
+            Debug.WriteLine($"文件已保存至 {filePath}");
+            return filePath;
+        }
+        return null;
     }
 }

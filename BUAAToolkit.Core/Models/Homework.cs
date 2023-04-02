@@ -39,20 +39,20 @@ public class HomeworkDetails
         get; set;
     }
 
-    private string _AttachedFileName;
+    private string _AttachmentName;
 
     [JsonProperty("fjmc")]
-    public string AttachedFileName
+    public string AttachmentName
     {
-        get => _AttachedFileName; 
+        get => _AttachmentName; 
         set
         {
-            AttacedFileExisted = (value==null) ? false : true;
-            _AttachedFileName = value ?? Description.Replace("<p>","").Replace("</p>","");
+            AttachmentExisted = (value==null) ? false : true;
+            _AttachmentName = value ?? Description.Replace("<p>","").Replace("</p>","");
         }
     }
 
-    public bool AttacedFileExisted { get; set; }
+    public bool AttachmentExisted { get; set; }
 
     [JsonProperty("fjzykssj")]
     public string BeginDate
