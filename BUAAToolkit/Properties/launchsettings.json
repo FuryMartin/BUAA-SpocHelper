@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "BUAAToolkit (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "BUAAToolkit (Unpackaged)": {
+        "commandName": "Project"
+      }
+    }
+}
