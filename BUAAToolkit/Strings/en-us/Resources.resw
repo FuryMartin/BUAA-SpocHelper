@@ -94,4 +94,10 @@
   <data name="SettingsPage_PrivacyTermsLink.NavigateUri" xml:space="preserve">
     <value>https://YourPrivacyUrlGoesHere/</value>
   </data>
+  <data name="Shell_Blank.Content" xml:space="preserve">
+    <value>Blank</value>
+  </data>
+  <data name="Shell_Login.Content" xml:space="preserve">
+    <value>Login</value>
+  </data>
 </root>

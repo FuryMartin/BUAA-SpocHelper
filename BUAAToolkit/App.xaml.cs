@@ -65,8 +65,14 @@ public partial class App : Application
 
             // Core Services
             services.AddSingleton<IFileService, FileService>();
+            services.AddSingleton<ISpocService, SpocService>();
+            services.AddSingleton<ISSOService, SSOService>();
 
             // Views and ViewModels
+            services.AddTransient<LoginViewModel>();
+            services.AddTransient<LoginPage>();
+            services.AddTransient<BlankViewModel>();
+            services.AddTransient<BlankPage>();
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SettingsPage>();
             services.AddTransient<MainViewModel>();
