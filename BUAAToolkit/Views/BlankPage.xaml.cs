@@ -37,9 +37,13 @@ public sealed partial class BlankPage : Page
 
     private async void FilePickClick(object sender, RoutedEventArgs e)
     {
-
+        var homework = ((Button)sender).DataContext as Homework;
         // Clear previous returned file name, if it exists, between iterations of this scenario
         var filepath = await FilePickHelper.OpenFilePicker();
+        if (filepath != null)
+        {
+            ViewModel.UploadFile(homework, filepath);
+        }
         Debug.WriteLine(filepath);
         ToolTipService.SetToolTip((Button)sender, filepath); 
     }

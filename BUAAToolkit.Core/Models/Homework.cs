@@ -26,6 +26,12 @@ public class Homework
     {
         get; set;
     }
+
+    [JsonProperty("xh")]
+    public string StudentID
+    {
+        get; set;
+    }
 }
 
 public class HomeworkDetails

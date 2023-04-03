@@ -9,12 +9,6 @@ public class Course
         get; set;
     }
 
-    //[JsonProperty("yhdm")]
-    //public string UserID
-    //{
-    //    get; set; 
-    //}
-
     [JsonProperty("kcmc")]
     public string Name
     {

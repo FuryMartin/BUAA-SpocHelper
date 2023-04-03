@@ -71,4 +71,10 @@ public partial class BlankViewModel : ObservableRecipient, INavigationAware
         var file = await Windows.Storage.StorageFile.GetFileFromPathAsync(filePath);
         _ = await Launcher.LaunchFileAsync(file);
     }
+
+    public async void UploadFile(Homework? homework, string filePath)
+    {
+        var courseID = homework?.CourseID;
+        await spocService.UploadFile(filePath, courseID);
+    }
 }

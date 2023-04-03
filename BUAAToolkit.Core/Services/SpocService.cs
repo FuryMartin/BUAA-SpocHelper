@@ -7,6 +7,11 @@ using BUAAToolkit.Core.Contracts.Services;
 using BUAAToolkit.Core.Models;
 using System.Text;
 using System.Net.Http;
+using System.Web;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.WebUtilities;
+using System.IO;
+using BUAAToolkit.Core.Helpers;
 
 namespace BUAAToolkit.Core.Services;
 public class SpocService : ISpocService
@@ -16,7 +21,7 @@ public class SpocService : ISpocService
     public JObject CourseListJson { get; set; }
     public List<Course> CourseList { get; set; }
 
-    public string UserID;
+    public string StudentID;
 
 
     public SpocService()
@@ -58,9 +63,9 @@ public class SpocService : ISpocService
         CourseListJson = JObject.Parse(responseText);
         CourseList = JsonConvert.DeserializeObject<List<Course>>(CourseListJson["result"].ToString());
         
-        //UserID = CourseList[0].UserID;
         
         await GetHomeworkList();
+        StudentID = CourseList[0].HomeworkList[0].StudentID;
 
         return CourseList;
     }
@@ -123,4 +128,100 @@ public class SpocService : ISpocService
         }
         return filePath;
     }
+
+    public async Task UploadFile(string filePath, string CourseID)
+    {
+        var uploadURL = "https://doc.spoc.buaa.edu.cn:18919/fileManager/fileManagerSystem/uploadFile";
+        var chunkSize = 5242880;
+        var fileinfo = new FileInfo(filePath);
+        var totalSize = fileinfo.Length;
+        var currentChunkSize = (totalSize > chunkSize && totalSize < 2*chunkSize)? totalSize : chunkSize;
+        var totalChunks = (int)Math.Ceiling((double)totalSize / chunkSize);
+
+        var queryDictionary = new Dictionary<string, string>
+        {
+            {"chunkNumber", "1"},
+            {"ChunkSize", "5242880" },
+            {"currentChunkSize", currentChunkSize.ToString() },
+            {"totalSize", totalSize.ToString() },
+            {"identifier", MD5Helper.GetFileMD5(filePath) },
+            {"filename", Path.GetFileName(filePath) },
+            {"reletivePath", Path.GetFileName(filePath) },
+            {"totalChunks", totalChunks.ToString() },
+            {"maxSize", "300" },
+            {"czxt", "kcjxpt" },
+            {"czmk", "作业管理" },
+            {"czr", StudentID },
+            {"cclj", CourseID }
+        };
+        var queryURL = QueryHelpers.AddQueryString(uploadURL, queryDictionary);
+
+        var response = await client.GetAsync(queryURL);
+        var responseText = await response.Content.ReadAsStringAsync();
+        var fileExisted = (bool)JObject.Parse(responseText)["mc"];
+        Debug.WriteLine(queryURL);
+        Debug.WriteLine(responseText);
+        if (fileExisted)
+        {
+            Debug.WriteLine("File Existed");
+        }
+        else
+        {
+            Debug.WriteLine("File UnExisted");
+            var success = await StreamUpload(filePath, uploadURL, queryDictionary);
+            if (success)
+            {
+                await MergeUpload(queryDictionary);
+            }
+        }
+
+    }
+
+    public async Task<bool> StreamUpload(string filePath, string uploadURL, Dictionary<string, string> queryDictionary)
+    {
+        var stream = File.OpenRead(filePath);
+        var ChunkSize = int.Parse(queryDictionary["ChunkSize"]);
+        var buffer = new byte[ChunkSize];
+        int bytesRead;
+        var chunkNumber = 0;
+        while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
+        {
+            chunkNumber++;
+            queryDictionary["currentChunkSize"] = bytesRead.ToString();
+
+            var content = new MultipartFormDataContent();
+            foreach (var kvp in queryDictionary)
+            {
+                content.Add(new StringContent(kvp.Value), kvp.Key);
+            }
+            content.Add(new ByteArrayContent(buffer, 0, bytesRead), "file");
+            var response = await client.PostAsync(uploadURL, content);
+            response.EnsureSuccessStatusCode();
+            Debug.WriteLine($"Chunk {chunkNumber} uploaded successfully!");
+        }
+        Debug.WriteLine("File uploaded successfully!");
+        return true;
+    }
+
+    public async Task<bool> MergeUpload(Dictionary<string, string> queryDictionary)
+    {
+        var urlMerge = "https://doc.spoc.buaa.edu.cn:18919/fileManager/fileManagerSystem/mergeFile";
+        var mergeQueryDictionary = new Dictionary<string, string>
+        {
+            { "identifier", queryDictionary["identifier"]},
+            {"filename", queryDictionary["filename"] },
+            {"totalSize", queryDictionary["totalSize"] },
+            {"czxt",queryDictionary["czxt"] },
+            {"czmk",queryDictionary["czmk"] },
+            {"czr",queryDictionary["czr"] },
+            {"cclj", queryDictionary["cclj"]}
+        };
+        var content = new FormUrlEncodedContent(mergeQueryDictionary);
+        var response = await client.PostAsync(urlMerge, content);
+        var responseText = await response.Content.ReadAsStringAsync();
+        Debug.WriteLine(responseText);
+        return true;
+    }
 }
+
+
