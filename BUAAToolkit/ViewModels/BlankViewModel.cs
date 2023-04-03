@@ -7,6 +7,7 @@ using BUAAToolkit.Services;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
+using Windows.System;
 
 namespace BUAAToolkit.ViewModels;
 

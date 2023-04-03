@@ -71,8 +71,8 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Margin="0" Content="选择文件" HorizontalAlignment="Center"/>
-                    <Button Grid.Column="1" Margin="0" Style="{StaticResource AccentButtonStyle}" Content="提交" HorizontalAlignment="Center" Click="SubmitClick"/>
+                    <Button Grid.Column="0" Margin="0" Content="选择文件" HorizontalAlignment="Center" Click="FilePickClick" ToolTipService.ToolTip=""/>
+                    <Button Grid.Column="1" Margin="0" Style="{StaticResource AccentButtonStyle}" Content="提交" HorizontalAlignment="Center" Click="SubmitClick" ToolTipService.ToolTip="{Binding Details[0].ResubmitEnableDescription}"/>
                 </Grid>
             </Grid>
         </DataTemplate>

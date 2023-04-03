@@ -3,19 +3,25 @@
 namespace BUAAToolkit.Core.Models;
 public class Homework
 {
-    [JsonProperty("zjmc")]
+    [JsonProperty("zjmc")]  // 上课时间
     public string ClassName
     {
         get; set;
     }
 
-    [JsonProperty("wtjsl")]
+    [JsonProperty("wtjsl")] // 未提交数量
     public int UnSubmitedCount
     {
         get; set;
     }
 
-    [JsonProperty("lmzwList")]
+    [JsonProperty("kcdm")]  // 课程代码
+    public string CourseID
+    {
+        get; set; 
+    }
+
+    [JsonProperty("lmzwList")] // 作业列表
     public List<HomeworkDetails> Details
     {
         get; set;
@@ -25,23 +31,30 @@ public class Homework
 public class HomeworkDetails
 {
 
-    [JsonProperty("mc11")]
+    [JsonProperty("mc11")]  // 作业文本描述
     public string Description
     {
         get; set;
     }
 
-    [JsonProperty("cclj")]
-    //不知道是啥，但是下载附件要用，具体来说是先URI编码再转Base64编码，与下面的
-    //Get 方法 https://spoc.buaa.edu.cn/spoc/moocwdkc/downloadTask.do?fjmc={Base64(Uri(fjmc))}&cclj={Base64(Uri(AcctachedFileName))}
+    [JsonProperty("fjzyyxcftj")] // 允许重复提交
+    public string fjzyyxcftj
+    {
+        get;set;
+    }
+
+    public bool ResubmitEnable => fjzyyxcftj == "1" ? true: false;
+    public string ResubmitEnableDescription => ResubmitEnable ? "允许重复提交" : "不允许重复提交";
+
+    [JsonProperty("cclj")]  // 附件路径
     public string cclj
     {
         get; set;
     }
 
-    private string _AttachmentName;
-
-    [JsonProperty("fjmc")]
+    private string _AttachmentName; 
+     
+    [JsonProperty("fjmc")]  // 附件名称
     public string AttachmentName
     {
         get => _AttachmentName; 
@@ -54,13 +67,13 @@ public class HomeworkDetails
 
     public bool AttachmentExisted { get; set; }
 
-    [JsonProperty("fjzykssj")]
+    [JsonProperty("fjzykssj")] // 作业发布时间
     public string BeginDate
     {
         get; set;
     }
 
-    [JsonProperty("fjzyjzsj")]
+    [JsonProperty("fjzyjzsj")] // 作业截止时间
     public string EndDate
     {
         get; set;
