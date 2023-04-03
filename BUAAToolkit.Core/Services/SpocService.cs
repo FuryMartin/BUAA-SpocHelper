@@ -96,26 +96,31 @@ public class SpocService : ISpocService
 
     public async Task<string> DownloadAttachment(string AttachmentName, string cclj)
     {
-        var downloadUrl = "https://spoc.buaa.edu.cn/spoc/moocwdkc/downloadTask.do";
-        var encodedFJMC = Convert.ToBase64String(Encoding.ASCII.GetBytes(Uri.EscapeDataString(AttachmentName)));
-        var encodedCCLJ = Convert.ToBase64String(Encoding.ASCII.GetBytes(cclj));
+        var fileName = Path.GetFileName(AttachmentName).ToLower(); // 将文件名中的后缀名部分转换为小写
+        var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", fileName);
 
-        var requestUrl = $"{downloadUrl}?fjmc={encodedFJMC}&cclj={encodedCCLJ}";
-
-        var response = await client.GetAsync(requestUrl);
-        if (response.IsSuccessStatusCode)
+        if (!File.Exists(filePath))
         {
-            var content = await response.Content.ReadAsByteArrayAsync();
-            var fileName = Path.GetFileName(AttachmentName).ToLower(); // 将文件名中的后缀名部分转换为小写
-            var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", fileName);
-            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            var downloadUrl = "https://spoc.buaa.edu.cn/spoc/moocwdkc/downloadTask.do";
+            var encodedFJMC = Convert.ToBase64String(Encoding.ASCII.GetBytes(Uri.EscapeDataString(AttachmentName)));
+            var encodedCCLJ = Convert.ToBase64String(Encoding.ASCII.GetBytes(cclj));
+
+            var requestUrl = $"{downloadUrl}?fjmc={encodedFJMC}&cclj={encodedCCLJ}";
+
+            var response = await client.GetAsync(requestUrl);
+            if (response.IsSuccessStatusCode)
             {
-                await fileStream.WriteAsync(content);
+                var content = await response.Content.ReadAsByteArrayAsync();
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await fileStream.WriteAsync(content);
+                }
+                Debug.WriteLine($"文件已保存至 {filePath}");
+
+                return filePath;
             }
-            Debug.WriteLine($"文件已保存至 {filePath}");
-            return filePath;
+            return null;
         }
-        return null;
+        return filePath;
     }
 }

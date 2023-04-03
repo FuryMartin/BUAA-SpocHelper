@@ -68,6 +68,7 @@ public partial class BlankViewModel : ObservableRecipient, INavigationAware
         var filename = homework?.Details[0].AttachmentName;
         var cclj = homework?.Details[0].cclj;
         var filePath = await spocService.DownloadAttachment(filename, cclj);
-        //_ = Task.Run(() => Process.Start(filePath));
+        var file = await Windows.Storage.StorageFile.GetFileFromPathAsync(filePath);
+        _ = await Launcher.LaunchFileAsync(file);
     }
 }
