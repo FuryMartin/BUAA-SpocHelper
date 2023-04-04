@@ -23,10 +23,11 @@ public sealed partial class BlankPage : Page
         InitializeComponent();
     }
 
-    private void SubmitClick(object sender, RoutedEventArgs e)
+    private async void SubmitClick(object sender, RoutedEventArgs e)
     {
         var homework = ((Button)sender).DataContext as Homework;
-        ViewModel.SubmitClicked(homework);
+        var success = ViewModel.SubmitClicked(homework);
+        Debug.WriteLine(success);
     }
 
     private void AttachmentClick(object sender, RoutedEventArgs e)

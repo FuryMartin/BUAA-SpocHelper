@@ -70,9 +70,11 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="40"/>
                     </Grid.ColumnDefinitions>
                     <Button Grid.Column="0" Margin="0" Content="选择文件" HorizontalAlignment="Center" Click="FilePickClick" ToolTipService.ToolTip=""/>
                     <Button Grid.Column="1" Margin="0" Style="{StaticResource AccentButtonStyle}" Content="提交" HorizontalAlignment="Center" Click="SubmitClick" ToolTipService.ToolTip="{Binding Details[0].ResubmitEnableDescription}"/>
+                    <FontIcon Grid.Column="2" Glyph="&#xF16C;" VerticalAlignment="Center" Foreground="green" Visibility="{Binding Details[0].WasSubmitted, Converter={StaticResource BoolToVisibilityConverter}}" ToolTipService.ToolTip="已提交过"/>
                 </Grid>
             </Grid>
         </DataTemplate>

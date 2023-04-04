@@ -92,11 +92,13 @@ public class SpocService : ISpocService
 
     public void ParserUndoneHomework()
     {
+        CourseList.RemoveAll(course => course.UnSubmitedCount == 0);
+        Debug.WriteLine("Break");
         for (var i = 0; i < CourseList.Count; i++)
         {
-            CourseList[i].HomeworkList.RemoveAll(homework => homework.UnSubmitedCount == 0);
+            CourseList[i].HomeworkList.RemoveAll(homework => homework.Details.Count() == 0);
         }
-        CourseList.RemoveAll(course => course.HomeworkList.Count == 0);
+        //CourseList.RemoveAll(course => course.HomeworkList.Count == 0);
     }
 
     public async Task<string> DownloadAttachment(string AttachmentName, string cclj)
@@ -220,6 +222,29 @@ public class SpocService : ISpocService
         var response = await client.PostAsync(urlMerge, content);
         var responseText = await response.Content.ReadAsStringAsync();
         Debug.WriteLine(responseText);
+        return true;
+    }
+
+    public async Task<bool> SubmitHomework(HomeworkDetails detail)
+    {
+        var zyfjFileName = Path.GetFileName(detail.FilePathToUpload);
+        var zyfjPath = $"{detail.kcdm}/{MD5Helper.GetFileMD5(detail.FilePathToUpload)}{Path.GetExtension(zyfjFileName)}"; 
+        var contentDictionary = new Dictionary<string, string>
+        {
+            {"zjdm",  detail.zjdm },
+            {"kcdm",  detail.kcdm },
+            {"zynrdm", detail.kcnr },
+            {"zynr", null },
+            {"zyfjPath", zyfjPath },
+            {"zyfjFileName", zyfjFileName },
+            {"zyzt", "1" }
+        };
+        var urlSubmit = "https://spoc.buaa.edu.cn/spoc/moocxsxx/saveFjZy.do";
+        var content = new FormUrlEncodedContent (contentDictionary);
+        var response = await client.PostAsync(urlSubmit, content);
+        var responseText = await response?.Content.ReadAsStringAsync();
+        Debug.WriteLine(responseText);
+
         return true;
     }
 }

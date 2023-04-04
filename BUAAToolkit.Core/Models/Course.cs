@@ -51,7 +51,9 @@ public class Course
             var sum = 0;
             foreach (var homework in HomeworkList)
             {
-                sum += homework.UnSubmitedCount;
+                homework.Details.RemoveAll(detail => detail.zysfktj == "0");
+                sum += homework.Details.Count();
+                //sum += homework.UnSubmitedCount;
             }
             return sum;
         }

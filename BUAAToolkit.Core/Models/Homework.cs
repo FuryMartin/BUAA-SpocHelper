@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using BUAAToolkit.Core.Helpers;
+using Newtonsoft.Json;
 
 namespace BUAAToolkit.Core.Models;
 public class Homework
@@ -46,10 +47,10 @@ public class HomeworkDetails
     [JsonProperty("fjzyyxcftj")] // 允许重复提交
     public string fjzyyxcftj
     {
-        get;set;
+        get; set;
     }
 
-    public bool ResubmitEnable => fjzyyxcftj == "1" ? true: false;
+    public bool ResubmitEnable => fjzyyxcftj == "1" ? true : false;
     public string ResubmitEnableDescription => ResubmitEnable ? "允许重复提交" : "不允许重复提交";
 
     [JsonProperty("cclj")]  // 附件路径
@@ -58,16 +59,16 @@ public class HomeworkDetails
         get; set;
     }
 
-    private string _AttachmentName; 
-     
+    private string _AttachmentName;
+
     [JsonProperty("fjmc")]  // 附件名称
     public string AttachmentName
     {
-        get => _AttachmentName; 
+        get => _AttachmentName;
         set
         {
-            AttachmentExisted = (value==null) ? false : true;
-            _AttachmentName = value ?? Description.Replace("<p>","").Replace("</p>","");
+            AttachmentExisted = (value == null) ? false : true;
+            _AttachmentName = value ?? Description.Replace("<p>", "").Replace("</p>", "");
         }
     }
 
@@ -84,4 +85,42 @@ public class HomeworkDetails
     {
         get; set;
     }
+
+    [JsonProperty("zjdm")]
+    public string zjdm
+    {
+        get; set;
+    }
+
+    [JsonProperty("kcdm")]
+    public string kcdm
+    {
+        get; set;
+    }
+
+    [JsonProperty("kcnr")]
+    public string kcnr
+    {
+        get; set;
+    }
+
+    [JsonProperty("zyzt")]
+    public string zyzt
+    {
+        get; set;
+    }
+
+    [JsonProperty("zysfktj")]
+    public string zysfktj
+    {
+        get; set;
+    }
+
+    public string FilePathToUpload
+    {
+        get; set;
+    }
+
+    public bool WasSubmitted => zyzt != null;
+
 }

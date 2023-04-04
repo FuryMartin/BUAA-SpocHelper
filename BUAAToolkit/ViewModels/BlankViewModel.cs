@@ -56,11 +56,10 @@ public partial class BlankViewModel : ObservableRecipient, INavigationAware
         Debug.WriteLine("Break");
     }
 
-    public void SubmitClicked(Homework? homework)
+    public async Task<bool> SubmitClicked(Homework homework)
     {
-        Debug.WriteLine(homework?.Details[0].cclj);
-        IFileService fileService = new FileService();
-        //fileService.Save("C:\\Users\\Fury\\Downloads", "homework.txt", homework?.Details[0].cclj);
+        var res = await spocService.SubmitHomework(homework.Details[0]);
+        return res;
     }
 
     public async void AttachmentClicked(Homework? homework)
@@ -72,9 +71,10 @@ public partial class BlankViewModel : ObservableRecipient, INavigationAware
         _ = await Launcher.LaunchFileAsync(file);
     }
 
-    public async void UploadFile(Homework? homework, string filePath)
+    public async void UploadFile(Homework homework, string filePath)
     {
-        var courseID = homework?.CourseID;
+        var courseID = homework.CourseID;
+        homework.Details[0].FilePathToUpload = filePath;
         await spocService.UploadFile(filePath, courseID);
     }
 }
