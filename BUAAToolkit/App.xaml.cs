@@ -75,8 +75,6 @@ public partial class App : Application
             services.AddTransient<BlankPage>();
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SettingsPage>();
-            services.AddTransient<MainViewModel>();
-            services.AddTransient<MainPage>();
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
 

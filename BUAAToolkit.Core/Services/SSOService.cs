@@ -7,15 +7,21 @@ using BUAAToolkit.Core.Models;
 namespace BUAAToolkit.Core.Services;
 public class SSOService : ISSOService
 {
-    private static readonly CookieContainer cookieContainer = new();
+    private readonly CookieContainer cookieContainer = new();
 
-    private static readonly HttpClientHandler httpClientHandler = new()
+    private readonly HttpClientHandler httpClientHandler = new()
     {
         AllowAutoRedirect = false,
         AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
     };
 
-    public static readonly HttpClient client = new(httpClientHandler);
+    public HttpClient client;
+
+    public SSOService()
+    {
+        client = new(httpClientHandler);
+        InitializeClient();
+    }
 
     public void InitializeClient()
     {
@@ -76,4 +82,8 @@ public class SSOService : ISSOService
     }
 
     public HttpClient GetHttpClient() => client;
+    public void CreateNewClient()
+    {
+        client = new(httpClientHandler);
+    }
 }

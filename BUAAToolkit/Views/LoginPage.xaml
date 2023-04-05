@@ -9,7 +9,7 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-  <Grid x:Name="ContentArea" RowSpacing="5">
+  <Grid x:Name="ContentArea" RowSpacing="5" VerticalAlignment="Center">
     <Grid.RowDefinitions>
       <RowDefinition Height="40"/>
       <RowDefinition Height="40"/>

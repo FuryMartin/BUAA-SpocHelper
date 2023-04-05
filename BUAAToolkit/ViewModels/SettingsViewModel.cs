@@ -1,21 +1,28 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using System.Windows.Input;
 
 using BUAAToolkit.Contracts.Services;
+using BUAAToolkit.Core.Contracts.Services;
+using BUAAToolkit.Core.Models;
+using BUAAToolkit.Core.Services;
 using BUAAToolkit.Helpers;
-
+using BUAAToolkit.Services;
+using BUAAToolkit.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 using Microsoft.UI.Xaml;
-
+using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel;
 
 namespace BUAAToolkit.ViewModels;
 
-public class SettingsViewModel : ObservableRecipient
+public partial class SettingsViewModel : ObservableRecipient
 {
     private readonly IThemeSelectorService _themeSelectorService;
+    private ISSOService _ssoService;
+    private readonly INavigationService _navigationService;
     private ElementTheme _elementTheme;
     private string _versionDescription;
 
@@ -41,6 +48,8 @@ public class SettingsViewModel : ObservableRecipient
         _themeSelectorService = themeSelectorService;
         _elementTheme = _themeSelectorService.Theme;
         _versionDescription = GetVersionDescription();
+        _navigationService = App.GetService<INavigationService>();
+        _ssoService = new SSOService();
 
         SwitchThemeCommand = new RelayCommand<ElementTheme>(
             async (param) =>
@@ -69,5 +78,13 @@ public class SettingsViewModel : ObservableRecipient
         }
 
         return $"{"AppDisplayName".GetLocalized()} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+    }
+
+    [ICommand]
+    public async Task ChangeAccount()
+    {
+        AccountService.SaveAccount(null,null);
+        _navigationService.NavigateTo(typeof(LoginViewModel).FullName!);
+        await Task.CompletedTask;
     }
 }

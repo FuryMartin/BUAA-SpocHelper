@@ -6,48 +6,45 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:helpers="using:BUAAToolkit.Helpers"
     xmlns:xaml="using:Microsoft.UI.Xaml"
+    xmlns:settingsUI="using:WinUICommunity.SettingsUI.Controls"
     mc:Ignorable="d">
     <Page.Resources>
         <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+        <Style
+            x:Key="TitleStyle"
+            BasedOn="{StaticResource TitleTextBlockStyle}"
+            TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,0,0,12" />
+        </Style>
+        <Style
+            x:Key="SubTitleStyle"
+            BasedOn="{StaticResource SubtitleTextBlockStyle}"
+            TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,24,0,0" />
+        </Style>
+        <Thickness x:Key="SubContentBlockMargin">0,8,0,0</Thickness>
+        <Style
+            x:Key="BodyTextStyle"
+            BasedOn="{StaticResource BodyTextBlockStyle}"
+            TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,8,0,0" />
+        </Style>
+
+        <!--<Thickness x:Key="SettingsExpanderHeaderMargin">0,0,24,0</Thickness>
+        <Thickness x:Key="SettingsExpanderContentMargin">56,10,24,10</Thickness>-->
+
+        <Style BasedOn="{StaticResource ToggleSwitchSettingStyle}" TargetType="ToggleSwitch" />
+        <Style TargetType="HyperlinkButton" />
     </Page.Resources>
     <Grid>
-        <StackPanel
+        <!--<StackPanel
             x:Name="ContentArea">
             <TextBlock x:Uid="Settings_Personalization" Style="{ThemeResource SubtitleTextBlockStyle}" />
             <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
                 <TextBlock x:Uid="Settings_Theme" />
 
                 <StackPanel Margin="{StaticResource XSmallTopMargin}">
-                    <RadioButton
-                        x:Uid="Settings_Theme_Light"
-                        Command="{x:Bind ViewModel.SwitchThemeCommand}"
-                        IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}"
-                        FontSize="15"
-                        GroupName="AppTheme">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Light</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
-                    <RadioButton
-                        x:Uid="Settings_Theme_Dark"
-                        Command="{x:Bind ViewModel.SwitchThemeCommand}"
-                        IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}"
-                        FontSize="15"
-                        GroupName="AppTheme">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Dark</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
-                    <RadioButton
-                        x:Uid="Settings_Theme_Default"
-                        Command="{x:Bind ViewModel.SwitchThemeCommand}"
-                        IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=OneWay}"
-                        FontSize="15"
-                        GroupName="AppTheme">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Default</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
+                    
                 </StackPanel>
             </StackPanel>
 
@@ -62,6 +59,77 @@
                     Style="{ThemeResource BodyTextBlockStyle}" />
                 <HyperlinkButton x:Uid="SettingsPage_PrivacyTermsLink" Margin="{StaticResource SettingsPageHyperlinkButtonMargin}" />
             </StackPanel>
-        </StackPanel>
+        </StackPanel>-->
+
+        <ScrollViewer>
+            <Grid
+                x:Name="MainContentArea"
+                MaxWidth="800"
+                MinWidth="500"
+                HorizontalAlignment="Center">
+                <StackPanel Margin="20 20 20 20" HorizontalAlignment="Stretch">
+                    <TextBlock x:Uid="Settings_Title" Style="{StaticResource TitleStyle}" />
+
+                    <StackPanel Margin="{StaticResource SubContentBlockMargin}">
+                        <settingsUI:Setting x:Uid="Settings_ChangeAccount" Icon="&#xE716;">
+                            <settingsUI:Setting.ActionContent>
+                                <Button x:Uid="Settings_ChangeAccount_Button" Command="{x:Bind ViewModel.ChangeAccountCommand}"/>
+                            </settingsUI:Setting.ActionContent>
+                        </settingsUI:Setting>
+
+
+                        <!--<settingsUI:SettingExpander>
+                            <settingsUI:SettingExpander.Header>
+                                <settingsUI:Setting x:Uid="Settings_RunAtStartupSetting" Icon="&#xE7F8;">
+                                </settingsUI:Setting>
+                            </settingsUI:SettingExpander.Header>
+
+                            <settingsUI:SettingExpander.Content>
+                                <StackPanel>
+                                    <RadioButton
+                        x:Uid="Settings_Theme_Light"
+                        Command="{x:Bind ViewModel.SwitchThemeCommand}"
+                        IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}"
+                        FontSize="15"
+                        GroupName="AppTheme">
+                                        <RadioButton.CommandParameter>
+                                            <xaml:ElementTheme>Light</xaml:ElementTheme>
+                                        </RadioButton.CommandParameter>
+                                    </RadioButton>
+                                    <RadioButton
+                        x:Uid="Settings_Theme_Dark"
+                        Command="{x:Bind ViewModel.SwitchThemeCommand}"
+                        IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}"
+                        FontSize="15"
+                        GroupName="AppTheme">
+                                        <RadioButton.CommandParameter>
+                                            <xaml:ElementTheme>Dark</xaml:ElementTheme>
+                                        </RadioButton.CommandParameter>
+                                    </RadioButton>
+                                    <RadioButton
+                        x:Uid="Settings_Theme_Default"
+                        Command="{x:Bind ViewModel.SwitchThemeCommand}"
+                        IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=OneWay}"
+                        FontSize="15"
+                        GroupName="AppTheme">
+                                        <RadioButton.CommandParameter>
+                                            <xaml:ElementTheme>Default</xaml:ElementTheme>
+                                        </RadioButton.CommandParameter>
+                                    </RadioButton>
+                                </StackPanel>
+                            </settingsUI:SettingExpander.Content>
+                        </settingsUI:SettingExpander>
+                    </StackPanel>-->
+
+                    <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubTitleStyle}" />
+
+                    <StackPanel Margin="{StaticResource SubContentBlockMargin}">
+                        <TextBlock Style="{StaticResource BodyTextStyle}" Text="{x:Bind ViewModel.VersionDescription}" />
+                        <TextBlock x:Uid="Settings_AboutDescription" Style="{ThemeResource BodyTextStyle}" />
+                    </StackPanel>
+                </StackPanel>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>

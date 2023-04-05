@@ -1,4 +1,5 @@
 ﻿using BUAAToolkit.Contracts.Services;
+using BUAAToolkit.Services;
 using BUAAToolkit.Views;
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -7,7 +8,7 @@ using Microsoft.UI.Xaml.Navigation;
 
 namespace BUAAToolkit.ViewModels;
 
-public class ShellViewModel : ObservableRecipient
+public partial class ShellViewModel : ObservableRecipient
 {
     private bool _isBackEnabled;
     private object? _selected;
@@ -21,6 +22,9 @@ public class ShellViewModel : ObservableRecipient
     {
         get;
     }
+
+    [ObservableProperty]
+    public bool isMainEnabled;
 
     public bool IsBackEnabled
     {

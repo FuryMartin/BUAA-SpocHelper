@@ -5,4 +5,5 @@ public interface ISSOService
 {
     HttpClient GetHttpClient();
     Task<bool> SSOLoginAsync();
+    void CreateNewClient();
 }

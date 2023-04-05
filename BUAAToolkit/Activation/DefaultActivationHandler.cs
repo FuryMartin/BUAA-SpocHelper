@@ -1,4 +1,5 @@
 ﻿using BUAAToolkit.Contracts.Services;
+using BUAAToolkit.Services;
 using BUAAToolkit.ViewModels;
 
 using Microsoft.UI.Xaml;
@@ -22,7 +23,16 @@ public class DefaultActivationHandler : ActivationHandler<LaunchActivatedEventAr
 
     protected async override Task HandleInternalAsync(LaunchActivatedEventArgs args)
     {
-        _navigationService.NavigateTo(typeof(MainViewModel).FullName!, args.Arguments);
+        await AccountService.LoadAccount();
+        //_navigationService.NavigateTo(typeof(LoginViewModel).FullName!, args.Arguments);
+        if (AccountService.accountExisted)
+        {
+            _navigationService.NavigateTo(typeof(BlankViewModel).FullName!, args.Arguments);
+        }
+        else
+        {
+            _navigationService.NavigateTo(typeof(LoginViewModel).FullName!, args.Arguments);
+        }
 
         await Task.CompletedTask;
     }
