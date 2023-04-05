@@ -19,8 +19,8 @@
       <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
 
-    <TextBox Grid.Column="0" Grid.Row="0" Width="300" Text="{x:Bind ViewModel.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" PlaceholderText="Name" VerticalAlignment="Center" />
-    <PasswordBox Grid.Column="0" Grid.Row="1" Width="300" Password="{x:Bind ViewModel.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" PlaceholderText="Password" VerticalAlignment="Center" AutomationProperties.Name="Simple PasswordBox"/>
-    <Button Grid.Column="0" Grid.Row="2" Width="100" Content="Sign in" Command="{x:Bind ViewModel.LoginCommand}" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Center"/>
+    <TextBox x:Uid="UsernameTextBox" Grid.Column="0" Grid.Row="0" Width="300" Text="{x:Bind ViewModel.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    <PasswordBox x:Uid="PasswordTextBox" Grid.Column="0" Grid.Row="1" Width="300" Password="{x:Bind ViewModel.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" AutomationProperties.Name="Simple PasswordBox"/>
+    <Button x:Uid="SignInButton" Grid.Column="0" Grid.Row="2" Width="100" Command="{x:Bind ViewModel.LoginCommand}" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Center"/>
   </Grid>
 </Page>

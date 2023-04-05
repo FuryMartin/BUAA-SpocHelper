@@ -56,7 +56,7 @@
                 -->
                 <NavigationViewItem x:Uid="Shell_Blank"  helpers:NavigationHelper.NavigateTo="BUAAToolkit.ViewModels.BlankViewModel">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7c3;"/>
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE7C3;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <!--<NavigationViewItem x:Uid="Shell_Login" helpers:NavigationHelper.NavigateTo="BUAAToolkit.ViewModels.LoginViewModel">

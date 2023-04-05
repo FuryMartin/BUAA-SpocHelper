@@ -47,42 +47,24 @@
                     
                 </StackPanel>
             </StackPanel>
-
-            <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubtitleTextBlockStyle}" />
-
-            <StackPanel Margin="{StaticResource XSmallTopMargin}">
-                <TextBlock Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" />
-
-                <TextBlock
-                    x:Uid="Settings_AboutDescription"
-                    Margin="{StaticResource XSmallTopMargin}"
-                    Style="{ThemeResource BodyTextBlockStyle}" />
-                <HyperlinkButton x:Uid="SettingsPage_PrivacyTermsLink" Margin="{StaticResource SettingsPageHyperlinkButtonMargin}" />
-            </StackPanel>
         </StackPanel>-->
 
-        <ScrollViewer>
-            <Grid
-                x:Name="MainContentArea"
-                MaxWidth="800"
-                MinWidth="500"
-                HorizontalAlignment="Center">
-                <StackPanel Margin="20 20 20 20" HorizontalAlignment="Stretch">
-                    <TextBlock x:Uid="Settings_Title" Style="{StaticResource TitleStyle}" />
+        <ScrollViewer MaxWidth="700">
+            <StackPanel Margin="20 20 20 20" HorizontalAlignment="Stretch">
+                <TextBlock x:Uid="Settings_Title" Style="{StaticResource TitleStyle}" />
 
-                    <StackPanel Margin="{StaticResource SubContentBlockMargin}">
-                        <settingsUI:Setting x:Uid="Settings_ChangeAccount" Icon="&#xE716;">
-                            <settingsUI:Setting.ActionContent>
-                                <Button x:Uid="Settings_ChangeAccount_Button" Command="{x:Bind ViewModel.ChangeAccountCommand}"/>
-                            </settingsUI:Setting.ActionContent>
-                        </settingsUI:Setting>
+                <StackPanel Margin="{StaticResource SubContentBlockMargin}">
+                    <settingsUI:Setting x:Uid="Settings_ChangeAccount" Icon="&#xE716;">
+                        <settingsUI:Setting.ActionContent>
+                            <Button x:Uid="Settings_ChangeAccount_Button" Command="{x:Bind ViewModel.ChangeAccountCommand}"/>
+                        </settingsUI:Setting.ActionContent>
+                    </settingsUI:Setting>
 
 
-                        <!--<settingsUI:SettingExpander>
-                            <settingsUI:SettingExpander.Header>
-                                <settingsUI:Setting x:Uid="Settings_RunAtStartupSetting" Icon="&#xE7F8;">
-                                </settingsUI:Setting>
-                            </settingsUI:SettingExpander.Header>
+                    <!--<settingsUI:SettingExpander>
+                        <settingsUI:SettingExpander.Header>
+                            <settingsUI:Setting x:Uid="Settings_Theme" Icon="&#xE7F8;"/>
+                        </settingsUI:SettingExpander.Header>
 
                             <settingsUI:SettingExpander.Content>
                                 <StackPanel>
@@ -120,16 +102,15 @@
                             </settingsUI:SettingExpander.Content>
                         </settingsUI:SettingExpander>
                     </StackPanel>-->
-
-                    <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubTitleStyle}" />
-
-                    <StackPanel Margin="{StaticResource SubContentBlockMargin}">
-                        <TextBlock Style="{StaticResource BodyTextStyle}" Text="{x:Bind ViewModel.VersionDescription}" />
-                        <TextBlock x:Uid="Settings_AboutDescription" Style="{ThemeResource BodyTextStyle}" />
-                    </StackPanel>
                 </StackPanel>
+
+                <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubTitleStyle}" />
+
+                <StackPanel Margin="{StaticResource SubContentBlockMargin}">
+                    <TextBlock x:Uid="Settings_AboutDescription" Style="{ThemeResource BodyTextStyle}" />
+                    <TextBlock Style="{StaticResource BodyTextStyle}" Margin="0 30 0 30" Text="{x:Bind ViewModel.VersionDescription}" />
                 </StackPanel>
-            </Grid>
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </Page>

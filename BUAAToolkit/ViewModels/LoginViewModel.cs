@@ -4,6 +4,7 @@ using BUAAToolkit.Contracts.ViewModels;
 using BUAAToolkit.Core.Contracts.Services;
 using BUAAToolkit.Core.Models;
 using BUAAToolkit.Core.Services;
+using BUAAToolkit.Helpers;
 using BUAAToolkit.Models;
 using BUAAToolkit.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -44,7 +45,7 @@ public partial class LoginViewModel : ObservableRecipient, INavigationAware
         if (!success)
         {
             Debug.WriteLine("Failed");
-            await dialogService.ShowConfirmationDialog("登录失败", "请检查账号密码是否正确");
+            await dialogService.ShowConfirmationDialog("LoginError".GetLocalized(), "ConfirmAccountInfo".GetLocalized());
         }
         else
         {

@@ -25,8 +25,10 @@ public sealed partial class BlankPage : Page
 
     private async void SubmitClick(object sender, RoutedEventArgs e)
     {
+        var button = (Button)sender;
         var homework = ((Button)sender).DataContext as Homework;
-        var success = ViewModel.SubmitClicked(homework);
+        var success = await ViewModel.SubmitClicked(homework);
+        //button.Flyout.Hide();
         Debug.WriteLine(success);
     }
 

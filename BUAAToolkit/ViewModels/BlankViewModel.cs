@@ -8,12 +8,17 @@ using System.Diagnostics;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
 using Windows.System;
+using BUAAToolkit.Helpers;
 
 namespace BUAAToolkit.ViewModels;
 
 public partial class BlankViewModel : ObservableRecipient, INavigationAware
 {
     ISpocService spocService = new SpocService();
+    DialogService dialogService = new DialogService();
+
+    public string ReSubmitEnabledDescription => "ReSubmitEnabled".GetLocalized();
+    public string ReSubmitDisabledDescription => "ReSubmitDisabled".GetLocalized();
     public ObservableCollection<Course> Courses
     {
         get; set;
@@ -34,7 +39,11 @@ public partial class BlankViewModel : ObservableRecipient, INavigationAware
 
     public void OnNavigatedTo(object parameter)
     {
+        FreshPage();
+    }
 
+    public void FreshPage()
+    {
         try
         {
             Courses.Clear();
@@ -58,7 +67,22 @@ public partial class BlankViewModel : ObservableRecipient, INavigationAware
 
     public async Task<bool> SubmitClicked(Homework homework)
     {
+        Debug.WriteLine("Clicked");
+        if (homework.Details[0].FilePathToUpload == null)
+        {
+            await dialogService.ShowConfirmationDialog("SubmitError".GetLocalized(), "FileUnselected".GetLocalized());
+            return false;
+        }
         var res = await spocService.SubmitHomework(homework.Details[0]);
+        if (res)
+        {
+            await dialogService.ShowConfirmationDialog("SubmitSuccess".GetLocalized(), "SubmitCongratulation".GetLocalized());
+            FreshPage();
+        }
+        else
+        {
+            await dialogService.ShowConfirmationDialog("SubmitError".GetLocalized(), "SubmitErrorGuess".GetLocalized());
+        }
         return res;
     }
 

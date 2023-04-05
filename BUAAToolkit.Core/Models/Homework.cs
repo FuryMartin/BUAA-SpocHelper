@@ -51,7 +51,7 @@ public class HomeworkDetails
     }
 
     public bool ResubmitEnable => fjzyyxcftj == "1" ? true : false;
-    public string ResubmitEnableDescription => ResubmitEnable ? "允许重复提交" : "不允许重复提交";
+    //public string ResubmitEnableDescription => ResubmitEnable ? "允许重复提交" : "不允许重复提交";
 
     [JsonProperty("cclj")]  // 附件路径
     public string cclj
