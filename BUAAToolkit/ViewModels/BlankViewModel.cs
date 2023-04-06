@@ -16,6 +16,9 @@ public partial class BlankViewModel : ObservableRecipient, INavigationAware
 {
     ISpocService spocService = new SpocService();
     DialogService dialogService = new DialogService();
+    
+    [ObservableProperty]
+    public bool pageLoading = true;
 
     public string ReSubmitEnabledDescription => "ReSubmitEnabled".GetLocalized();
     public string ReSubmitDisabledDescription => "ReSubmitDisabled".GetLocalized();
@@ -42,12 +45,14 @@ public partial class BlankViewModel : ObservableRecipient, INavigationAware
         FreshPage();
     }
 
-    public void FreshPage()
+    public async void FreshPage()
     {
         try
         {
+            PageLoading = true;
             Courses.Clear();
-            GetCourses();
+            await GetCourses();
+            PageLoading = false;
         }
         catch (Exception ex)
         {
@@ -55,7 +60,7 @@ public partial class BlankViewModel : ObservableRecipient, INavigationAware
         }
     }
 
-    public async void GetCourses()
+    public async Task GetCourses()
     {
         var CourseList = await spocService.GetCourseListAsync();
         foreach (var course in CourseList)

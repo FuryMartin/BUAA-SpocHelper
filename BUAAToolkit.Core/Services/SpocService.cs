@@ -17,7 +17,7 @@ namespace BUAAToolkit.Core.Services;
 public class SpocService : ISpocService
 {
     readonly ISSOService ssoService = new SSOService();
-    private readonly HttpClient client;
+    private HttpClient client;
     public JObject CourseListJson { get; set; }
     public List<Course> CourseList { get; set; }
 
@@ -51,6 +51,7 @@ public class SpocService : ISpocService
 
     public async Task<IEnumerable<Course>> GetCourseListAsync()
     {
+        client = ssoService.GetHttpClient();
         var isConnected = await IsConnected();
         if(!isConnected) {
             await ssoService.SSOLoginAsync();
@@ -62,7 +63,6 @@ public class SpocService : ISpocService
         var responseText = await response.Content.ReadAsStringAsync();
         CourseListJson = JObject.Parse(responseText);
         CourseList = JsonConvert.DeserializeObject<List<Course>>(CourseListJson["result"].ToString());
-        
         
         await GetHomeworkList();
         StudentID = CourseList[0].HomeworkList[0].StudentID;

@@ -9,18 +9,19 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-  <Grid x:Name="ContentArea" RowSpacing="5" VerticalAlignment="Center">
-    <Grid.RowDefinitions>
-      <RowDefinition Height="40"/>
-      <RowDefinition Height="40"/>
-      <RowDefinition Height="40"/>
-    </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="*"/>
-    </Grid.ColumnDefinitions>
+  <Grid x:Name="ContentArea" RowSpacing="40" VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-    <TextBox x:Uid="UsernameTextBox" Grid.Column="0" Grid.Row="0" Width="300" Text="{x:Bind ViewModel.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-    <PasswordBox x:Uid="PasswordTextBox" Grid.Column="0" Grid.Row="1" Width="300" Password="{x:Bind ViewModel.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" AutomationProperties.Name="Simple PasswordBox"/>
-    <Button x:Uid="SignInButton" Grid.Column="0" Grid.Row="2" Width="100" Command="{x:Bind ViewModel.LoginCommand}" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Center"/>
-  </Grid>
+        <TextBlock x:Uid="LoginPageWelcome" Grid.Row="0" Style="{StaticResource TitleTextBlockStyle}" HorizontalAlignment="Center"/>
+        <StackPanel Spacing="20" Grid.Row="1">
+            <TextBox x:Uid="UsernameTextBox" Width="200" Text="{x:Bind ViewModel.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <PasswordBox x:Uid="PasswordTextBox" Width="200" Password="{x:Bind ViewModel.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" AutomationProperties.Name="Simple PasswordBox"/>
+            <Button x:Uid="SignInButton" Width="100" Command="{x:Bind ViewModel.LoginCommand}" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Center"/>
+        </StackPanel>
+        <TextBlock x:Uid="LoginPrivacyDescription" Grid.Row="2" HorizontalAlignment="Center" Foreground="Gray" Text="你的账号仅会存储在本地😊" Padding="30"/>
+    </Grid>
 </Page>

@@ -142,7 +142,9 @@
     <value>关于本应用</value>
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
-    <value>一款基于WinUI 3的 Spoc 助手，为了优雅地查看并提交作业而生。</value>
+    <value>一款基于WinUI 3的 Spoc 助手，为了优雅地查看并提交作业而生。
+
+Coded With ❤️</value>
   </data>
   <data name="SettingsPage_PrivacyTermsLink.Content" xml:space="preserve">
     <value>隐私声明</value>
@@ -180,7 +182,7 @@
     <value>账号</value>
   </data>
   <data name="Settings_ChangeAccount_Button.Content" xml:space="preserve">
-    <value>切换</value>
+    <value>重置</value>
   </data>
   <data name="Settings_Title.Text" xml:space="preserve">
     <value>设置</value>
@@ -234,5 +236,12 @@
   </data>
   <data name="WasCommitedTooTip.Content" xml:space="preserve">
     <value>已提交过</value>
+  </data>
+  <data name="LoginPageWelcome.Text" xml:space="preserve">
+    <value>👋 首先需要设置
+你的统一认证账号</value>
+  </data>
+  <data name="LoginPrivacyDescription.Text" xml:space="preserve">
+    <value>你的账号仅会存储在本地😊</value>
   </data>
 </root>

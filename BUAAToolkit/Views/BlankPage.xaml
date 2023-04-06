@@ -100,16 +100,28 @@
         <StackLayout x:Name="VerticalStackLayout" Orientation="Vertical" Spacing="8"/>
     </Page.Resources>
 
-    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
-            HorizontalScrollMode="Auto"
-            VerticalScrollBarVisibility="Hidden"
-            IsVerticalScrollChainingEnabled="False"
-            MaxWidth="700"
-            VerticalAlignment="Stretch"
-            HorizontalAlignment="Stretch">
-        <ItemsRepeater
-           ItemsSource="{x:Bind ViewModel.Courses}"
-           Layout="{StaticResource VerticalStackLayout}"
-           ItemTemplate="{StaticResource CourseTemplate}" />
-    </ScrollViewer>
+    <Grid>
+        <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Disabled"
+                HorizontalScrollMode="Auto"
+                VerticalScrollBarVisibility="Hidden"
+                IsVerticalScrollChainingEnabled="False"
+                MaxWidth="700"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <ItemsRepeater Grid.Row="0"
+               ItemsSource="{x:Bind ViewModel.Courses}"
+               Layout="{StaticResource VerticalStackLayout}"
+               ItemTemplate="{StaticResource CourseTemplate}" />
+                <ProgressRing Grid.Row="1"
+                Width="48"
+                Height="48"
+                IsActive="{x:Bind ViewModel.PageLoading,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />  
+            </Grid>
+        </ScrollViewer>
+    </Grid>
 </Page>
