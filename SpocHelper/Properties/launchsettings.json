@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "SpocHelper (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "SpocHelper (Unpackaged)": {
+        "commandName": "Project"
+      }
+    }
+}
