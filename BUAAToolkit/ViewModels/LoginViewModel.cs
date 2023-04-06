@@ -15,7 +15,7 @@ namespace BUAAToolkit.ViewModels;
 
 public partial class LoginViewModel : ObservableRecipient, INavigationAware
 {
-    private ISSOService ssoService = new SSOService();
+    //private ISSOService ssoService = new SSOService();
     private readonly INavigationService _navigationService;
     readonly DialogService dialogService = new DialogService();
 
@@ -41,7 +41,7 @@ public partial class LoginViewModel : ObservableRecipient, INavigationAware
     public async Task Login()
     {
         AccountService.SetAccount(Username, Password);
-        var success = await ssoService.SSOLoginAsync();
+        var success = await SSOService.SSOLoginAsync();
         if (!success)
         {
             Debug.WriteLine("Failed");
@@ -61,6 +61,6 @@ public partial class LoginViewModel : ObservableRecipient, INavigationAware
     }
     public void OnNavigatedTo(object parameter)
     {
-        ssoService = new SSOService();
+        SSOService.InitializeClient();
     }
 }

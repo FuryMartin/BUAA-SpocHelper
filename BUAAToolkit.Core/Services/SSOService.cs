@@ -5,26 +5,29 @@ using BUAAToolkit.Core.Contracts.Services;
 using BUAAToolkit.Core.Models;
 
 namespace BUAAToolkit.Core.Services;
-public class SSOService : ISSOService
+public static class SSOService
 {
-    private readonly CookieContainer cookieContainer = new();
+    private static  CookieContainer cookieContainer;
 
-    private readonly HttpClientHandler httpClientHandler = new()
+    private static  HttpClientHandler httpClientHandler;
+
+    public static HttpClient client;
+
+    static SSOService()
     {
-        AllowAutoRedirect = false,
-        AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-    };
-
-    public HttpClient client;
-
-    public SSOService()
-    {
-        client = new(httpClientHandler);
         InitializeClient();
     }
 
-    public void InitializeClient()
+    public static void InitializeClient()
     {
+        cookieContainer = new CookieContainer();
+        httpClientHandler = new HttpClientHandler()
+        {
+            AllowAutoRedirect = false,
+            AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+        };
+        client = new(httpClientHandler);
+
         client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36");
         client.DefaultRequestHeaders.Add("Accecpt-Encoding", "gzip, deflate, br");
         client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
@@ -36,7 +39,7 @@ public class SSOService : ISSOService
         httpClientHandler.CookieContainer = cookieContainer;
     }
 
-    public async Task<bool> SSOLoginAsync()
+    public static async Task<bool> SSOLoginAsync()
     {
         var username = Account.Username;
         var password = Account.Password;
@@ -81,9 +84,5 @@ public class SSOService : ISSOService
         }
     }
 
-    public HttpClient GetHttpClient() => client;
-    public void CreateNewClient()
-    {
-        client = new(httpClientHandler);
-    }
+    public static HttpClient GetHttpClient() => client;
 }

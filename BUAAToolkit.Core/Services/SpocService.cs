@@ -16,7 +16,6 @@ using BUAAToolkit.Core.Helpers;
 namespace BUAAToolkit.Core.Services;
 public class SpocService : ISpocService
 {
-    readonly ISSOService ssoService = new SSOService();
     private HttpClient client;
     public JObject CourseListJson { get; set; }
     public List<Course> CourseList { get; set; }
@@ -26,7 +25,7 @@ public class SpocService : ISpocService
 
     public SpocService()
     {
-        client = ssoService.GetHttpClient();
+        client = SSOService.GetHttpClient();
     }
 
 
@@ -36,8 +35,6 @@ public class SpocService : ISpocService
         try
         {
             var response = await client.GetAsync("https://spoc.buaa.edu.cn/spoc/moocMainIndex/spocWelcome");
-            var responseText = await response.Content.ReadAsStringAsync();
-            //Debug.WriteLine(responseText);
             if (response.Headers.Location == null)
             {
                 Debug.WriteLine("Connected");
@@ -51,10 +48,9 @@ public class SpocService : ISpocService
 
     public async Task<IEnumerable<Course>> GetCourseListAsync()
     {
-        client = ssoService.GetHttpClient();
         var isConnected = await IsConnected();
         if(!isConnected) {
-            await ssoService.SSOLoginAsync();
+            await SSOService.SSOLoginAsync();
         }
         var data = new { kcmcTab = "", xnxq = "", sfzjkc = 0 };
         var httpContent = new StringContent(JsonConvert.SerializeObject(data));

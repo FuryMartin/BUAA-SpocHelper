@@ -21,7 +21,6 @@ namespace BUAAToolkit.ViewModels;
 public partial class SettingsViewModel : ObservableRecipient
 {
     private readonly IThemeSelectorService _themeSelectorService;
-    private ISSOService _ssoService;
     private readonly INavigationService _navigationService;
     private ElementTheme _elementTheme;
     private string _versionDescription;
@@ -49,7 +48,6 @@ public partial class SettingsViewModel : ObservableRecipient
         _elementTheme = _themeSelectorService.Theme;
         _versionDescription = GetVersionDescription();
         _navigationService = App.GetService<INavigationService>();
-        _ssoService = new SSOService();
 
         SwitchThemeCommand = new RelayCommand<ElementTheme>(
             async (param) =>
