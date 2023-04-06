@@ -118,13 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppDisplayName" xml:space="preserve">
-    <value>Spoc Toolkit</value>
+    <value>Spoc Helper</value>
   </data>
   <data name="AppDescription" xml:space="preserve">
-    <value>Spoc 小帮手</value>
-  </data>
-  <data name="Settings_Personalization.Text" xml:space="preserve">
-    <value>Personalization</value>
+    <value>Spoc Helper</value>
   </data>
   <data name="Settings_Theme.Header" xml:space="preserve">
     <value>Theme</value>
@@ -143,12 +140,6 @@
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
     <value>Spoc Toolkit is a WinUI 3-based app designed for elegant viewing and submission of homework assignments.</value>
-  </data>
-  <data name="SettingsPage_PrivacyTermsLink.Content" xml:space="preserve">
-    <value>Privacy Terms</value>
-  </data>
-  <data name="SettingsPage_PrivacyTermsLink.NavigateUri" xml:space="preserve">
-    <value>https://YourPrivacyUrlGoesHere/</value>
   </data>
   <data name="Shell_Blank.Content" xml:space="preserve">
     <value>Homework List</value>
@@ -177,7 +168,7 @@ Are you sure you want to submit it?</value>
     <value>Account</value>
   </data>
   <data name="Settings_ChangeAccount_Button.Content" xml:space="preserve">
-    <value>Switch</value>
+    <value>Reset</value>
   </data>
   <data name="Settings_Title.Text" xml:space="preserve">
     <value>Settings</value>
@@ -229,5 +220,15 @@ Are you sure you want to submit it?</value>
   </data>
   <data name="WasCommitedTooTip.Content" xml:space="preserve">
     <value>You have submitted once</value>
+  </data>
+  <data name="LoginPageWelcome.Text" xml:space="preserve">
+    <value>👋 You need to configure
+your BUAA account at first</value>
+  </data>
+  <data name="LoginPrivacyDescription.Text" xml:space="preserve">
+    <value>Your account will be storaged locally 😊</value>
+  </data>
+  <data name="CodeWithLove.Text" xml:space="preserve">
+    <value>Code with ❤️</value>
   </data>
 </root>

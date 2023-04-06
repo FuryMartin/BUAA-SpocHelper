@@ -30,25 +30,10 @@
             <Setter Property="Margin" Value="0,8,0,0" />
         </Style>
 
-        <!--<Thickness x:Key="SettingsExpanderHeaderMargin">0,0,24,0</Thickness>
-        <Thickness x:Key="SettingsExpanderContentMargin">56,10,24,10</Thickness>-->
-
         <Style BasedOn="{StaticResource ToggleSwitchSettingStyle}" TargetType="ToggleSwitch" />
         <Style TargetType="HyperlinkButton" />
     </Page.Resources>
     <Grid>
-        <!--<StackPanel
-            x:Name="ContentArea">
-            <TextBlock x:Uid="Settings_Personalization" Style="{ThemeResource SubtitleTextBlockStyle}" />
-            <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
-                <TextBlock x:Uid="Settings_Theme" />
-
-                <StackPanel Margin="{StaticResource XSmallTopMargin}">
-                    
-                </StackPanel>
-            </StackPanel>
-        </StackPanel>-->
-
         <ScrollViewer MaxWidth="700">
             <StackPanel Margin="20 20 20 20" HorizontalAlignment="Stretch">
                 <TextBlock x:Uid="Settings_Title" Style="{StaticResource TitleStyle}" />
@@ -106,9 +91,10 @@
 
                 <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubTitleStyle}" />
 
-                <StackPanel Margin="{StaticResource SubContentBlockMargin}">
+                <StackPanel Margin="{StaticResource SubContentBlockMargin}" Spacing="10">
                     <TextBlock x:Uid="Settings_AboutDescription" Style="{ThemeResource BodyTextStyle}" />
-                    <TextBlock Style="{StaticResource BodyTextStyle}" Margin="0 30 0 30" Text="{x:Bind ViewModel.VersionDescription}" />
+                    <TextBlock x:Uid="CodeWithLove" Margin="0 40 0 0"/>
+                    <TextBlock Style="{StaticResource BodyTextStyle}" Margin="0 0 0 0" Text="{x:Bind ViewModel.VersionDescription}" />
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

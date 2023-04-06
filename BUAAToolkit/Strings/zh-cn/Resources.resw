@@ -118,13 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppDisplayName" xml:space="preserve">
-    <value>Spoc Toolkit</value>
+    <value>Spoc Helper</value>
   </data>
   <data name="AppDescription" xml:space="preserve">
-    <value>Spoc 小帮手</value>
-  </data>
-  <data name="Settings_Personalization.Text" xml:space="preserve">
-    <value>Personalization</value>
+    <value>Spoc 助手</value>
   </data>
   <data name="Settings_Theme.Header" xml:space="preserve">
     <value>主题</value>
@@ -142,15 +139,7 @@
     <value>关于本应用</value>
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
-    <value>一款基于WinUI 3的 Spoc 助手，为了优雅地查看并提交作业而生。
-
-Coded With ❤️</value>
-  </data>
-  <data name="SettingsPage_PrivacyTermsLink.Content" xml:space="preserve">
-    <value>隐私声明</value>
-  </data>
-  <data name="SettingsPage_PrivacyTermsLink.NavigateUri" xml:space="preserve">
-    <value>https://YourPrivacyUrlGoesHere/</value>
+    <value>一款基于WinUI 3的 Spoc 助手，为了优雅地查看并提交作业而生。</value>
   </data>
   <data name="Shell_Blank.Content" xml:space="preserve">
     <value>作业列表</value>
@@ -243,5 +232,8 @@ Coded With ❤️</value>
   </data>
   <data name="LoginPrivacyDescription.Text" xml:space="preserve">
     <value>你的账号仅会存储在本地😊</value>
+  </data>
+  <data name="CodeWithLove.Text" xml:space="preserve">
+    <value>Code with ❤️</value>
   </data>
 </root>
