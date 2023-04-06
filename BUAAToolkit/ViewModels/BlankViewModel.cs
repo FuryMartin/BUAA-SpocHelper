@@ -27,13 +27,15 @@ public partial class BlankViewModel : ObservableRecipient, INavigationAware
         get; set;
     }
 
-    [ObservableProperty]
-    string courseName;
-
     public BlankViewModel()
     {
+        Initialize();
+    }
+
+    public async void Initialize()
+    {
         Courses = new ObservableCollection<Course>();
-        AccountService.LoadAccount();
+        await AccountService.LoadAccount();
     }
 
     public void OnNavigatedFrom()
