@@ -13,10 +13,10 @@
   <Identity
     Name="746dc3b0-f844-42d8-b543-d2a3ae5a4817"
     Publisher="CN=Fury"
-    Version="1.0.0.0" />
-    
+    Version="1.0.2.0" />
+
   <mp:PhoneIdentity PhoneProductId="746dc3b0-f844-42d8-b543-d2a3ae5a4817" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
-    
+
   <Properties>
     <DisplayName>SpocHelper</DisplayName>
     <PublisherDisplayName>Fury</PublisherDisplayName>
@@ -42,27 +42,29 @@
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"  Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
+        <uap:SplashScreen Image="Assets\SplashScreen.png"  BackgroundColor="transparent"/>
+        <uap:LockScreen BadgeLogo="Assets\BadgeLogo.png" Notification="badge"/>
       </uap:VisualElements>
       <Extensions>
-          <desktop:Extension Category="windows.toastNotificationActivation">
-              <desktop:ToastNotificationActivation ToastActivatorCLSID="0490b1f6-26aa-495e-93ce-91f2fdefc7e2" />
-          </desktop:Extension>
+        <desktop:Extension Category="windows.toastNotificationActivation">
+          <desktop:ToastNotificationActivation ToastActivatorCLSID="0490b1f6-26aa-495e-93ce-91f2fdefc7e2" />
+        </desktop:Extension>
 
-          <com:Extension Category="windows.comServer">
-              <com:ComServer>
-                  <com:ExeServer Executable="SpocHelper.exe" Arguments="----AppNotificationActivated:" DisplayName="Toast activator">
-                      <com:Class Id="0490b1f6-26aa-495e-93ce-91f2fdefc7e2" DisplayName="Toast activator"/>
-                  </com:ExeServer>
-              </com:ComServer>
-          </com:Extension>
+        <com:Extension Category="windows.comServer">
+          <com:ComServer>
+            <com:ExeServer Executable="SpocHelper.exe" Arguments="----AppNotificationActivated:" DisplayName="Toast activator">
+              <com:Class Id="0490b1f6-26aa-495e-93ce-91f2fdefc7e2" DisplayName="Toast activator"/>
+            </com:ExeServer>
+          </com:ComServer>
+        </com:Extension>
       </Extensions>
     </Application>
   </Applications>
 
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
+    <Capability Name="internetClient"/>
   </Capabilities>
 
   <genTemplate:Metadata>
