@@ -41,4 +41,4 @@ Spoc 助手是一款基于 WinUI 3 的 Windows 10/11 应用，能够让 BUAAers 
 
 
 🍀 应用图标：
-- [Paper icons created by Freepik - Flaticons](https://www.flaticon.com/free-icon/paper_2541984)
+- [Paper icons created by Freepik - Flaticons](https://www.flaticon.com/free-icon/paper_2541988)
