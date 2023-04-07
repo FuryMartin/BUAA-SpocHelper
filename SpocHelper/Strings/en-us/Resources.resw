@@ -231,4 +231,13 @@ your BUAA account at first</value>
   <data name="CodeWithLove.Text" xml:space="preserve">
     <value>Code with ❤️</value>
   </data>
+  <data name="GithubRepoLink.Content" xml:space="preserve">
+    <value>BUAA-SpocHelper - FuryMartin</value>
+  </data>
+  <data name="GithubRepoLink.NavigateUri" xml:space="preserve">
+    <value>https://github.com/FuryMartin/BUAA-SpocHelper</value>
+  </data>
+  <data name="Settings_GithubRepo.Text" xml:space="preserve">
+    <value>Open Source Repository</value>
+  </data>
 </root>

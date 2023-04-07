@@ -93,9 +93,19 @@
 
                 <StackPanel Margin="{StaticResource SubContentBlockMargin}" Spacing="10">
                     <TextBlock x:Uid="Settings_AboutDescription" Style="{ThemeResource BodyTextStyle}" />
+                </StackPanel>
+
+                <TextBlock x:Uid="Settings_GithubRepo" Style="{ThemeResource SubTitleStyle}"/>
+
+                <StackPanel Margin="{StaticResource SubContentBlockMargin}" Spacing="10">
+                    <HyperlinkButton x:Uid="GithubRepoLink"/>
+                </StackPanel>
+                
+                <StackPanel Margin="{StaticResource SubContentBlockMargin}" Spacing="10">
                     <TextBlock x:Uid="CodeWithLove" Margin="0 40 0 0"/>
                     <TextBlock Style="{StaticResource BodyTextStyle}" Margin="0 0 0 0" Text="{x:Bind ViewModel.VersionDescription}" />
                 </StackPanel>
+
             </StackPanel>
         </ScrollViewer>
     </Grid>
