@@ -11,15 +11,15 @@
   IgnorableNamespaces="uap rescap genTemplate">
 
   <Identity
-    Name="746dc3b0-f844-42d8-b543-d2a3ae5a4817"
-    Publisher="CN=Fury"
-    Version="1.0.2.0" />
+    Name="31700Y.Fan.SpocHelper"
+    Publisher="CN=6466E4E5-DD78-4F7F-B696-7C4AAC7CCFD9"
+    Version="1.0.4.0" />
 
-  <mp:PhoneIdentity PhoneProductId="746dc3b0-f844-42d8-b543-d2a3ae5a4817" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="e2ed562e-0096-4ed8-a778-63c749ccac70" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>SpocHelper</DisplayName>
-    <PublisherDisplayName>Fury</PublisherDisplayName>
+    <DisplayName>Spoc Helper</DisplayName>
+    <PublisherDisplayName>Y.Fan</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -44,7 +44,6 @@
         Square44x44Logo="Assets\Square44x44Logo.png">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"  Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png"  BackgroundColor="transparent"/>
-        <uap:LockScreen BadgeLogo="Assets\BadgeLogo.png" Notification="badge"/>
       </uap:VisualElements>
       <Extensions>
         <desktop:Extension Category="windows.toastNotificationActivation">
