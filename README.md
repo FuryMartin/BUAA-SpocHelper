@@ -1,27 +1,44 @@
-﻿*Recommended Markdown Viewer: [Markdown Editor](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.MarkdownEditor2)*
+﻿<p align="center">
+    <img width="128" align="center" src="SpocHelper/Assets/Icon.png">
+</p>
+<h1 align="center" style="font-weight: bold">
+  Spoc 助手
+</h1>
 
-## Getting Started
+<p align="center">
+  <a title="从 Microsoft 获取" href="https://apps.microsoft.com/store/detail/9PM0GCZ6ZD53?launch=true&mode=full">
+    <img src="https://get.microsoft.com/images/zh-CN%20dark.svg" width=144 />
+  </a>
+</p>
 
-Browse and address `TODO:` comments in `View -> Task List` to learn the codebase and understand next steps for turning the generated code into production code.
+<p align="center">
+  让 Spoc 作业提交更加优雅 
+</p>
 
-Explore the [WinUI Gallery](https://www.microsoft.com/store/productId/9P3JFPWWDZRC) to learn about available controls and design patterns.
 
-Relaunch Template Studio to modify the project by right-clicking on the project in `View -> Solution Explorer` then selecting `Add -> New Item (Template Studio)`.
+![ScreenShot](.github/images/ScreenShot.png)
 
-## Publishing
+## 📑 简介
 
-For projects with MSIX packaging, right-click on the application project and select `Package and Publish -> Create App Packages...` to create an MSIX package.
+Spoc 助手是一款基于 WinUI 3 的 Windows 10/11 应用，能够让 BUAAers 优雅地完成作业查看和提交。
 
-For projects without MSIX packaging, follow the [deployment guide](https://docs.microsoft.com/windows/apps/windows-app-sdk/deploy-unpackaged-apps) or add the `Self-Contained` Feature to enable xcopy deployment.
+## 🥳 使用
 
-## CI Pipelines
+- 🌐 通过微软商店下载本应用：[Spoc Helper](https://apps.microsoft.com/store/detail/9PM0GCZ6ZD53?launch=true&mode=full)
+- 🐼 使用统一认证账号登录（你的账号信息将仅保存在本地😊）
+- 🎉 查看作业并提交
 
-See [README.md](https://github.com/microsoft/TemplateStudio/blob/main/docs/WinUI/pipelines/README.md) for guidance on building and testing projects in CI pipelines.
+## 🤔 问题和建议？
 
-## Changelog
+请在 [Issue](https://github.com/FuryMartin/BUAA-SpocHelper/issues) 页面描述你所遇到的问题与建议。
 
-See [releases](https://github.com/microsoft/TemplateStudio/releases) and [milestones](https://github.com/microsoft/TemplateStudio/milestones).
+## ❤️ 致谢
 
-## Feedback
+🧑‍💻 代码参考：
+- [EnergyStarX - JasonWei512](https://github.com/JasonWei512/EnergyStarX)
+- [MVVMSourceGenerators - jamesmontemagno](https://github.com/jamesmontemagno/MVVMSourceGenerators)
+- [WinUI-Gallery - Microsoft](https://github.com/microsoft/WinUI-Gallery)
 
-Bugs and feature requests should be filed at https://aka.ms/templatestudio.
+
+🍀 应用图标：
+- [Paper icons created by Freepik - Flaticons](https://www.flaticon.com/free-icon/paper_2541984)
