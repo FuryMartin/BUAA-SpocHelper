@@ -240,4 +240,10 @@ your BUAA account at first</value>
   <data name="Settings_GithubRepo.Text" xml:space="preserve">
     <value>Open Source Repository</value>
   </data>
+  <data name="Settings_ChangeFileDirectory.Header" xml:space="preserve">
+    <value>Download Path</value>
+  </data>
+  <data name="Settings_ChangeFileDirectory_Button.Content" xml:space="preserve">
+    <value>Set</value>
+  </data>
 </root>

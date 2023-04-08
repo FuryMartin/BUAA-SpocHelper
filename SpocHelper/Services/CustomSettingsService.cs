@@ -12,11 +12,18 @@ using SpocHelper.Models;
 using Microsoft.Extensions.Options;
 
 namespace SpocHelper.Services;
-public static class AccountService
+public static class CustomSettingsService
 {
     public static readonly IFileService fileService = new FileService();
     public static readonly ILocalSettingsService Settings = new LocalSettingsService(fileService, Options.Create(new LocalSettingsOptions { }));
-    public static bool accountExisted;
+    private static string downloadDir; 
+    private static bool accountExisted;
+
+    static CustomSettingsService()
+    {
+        //LoadAccount();
+        LoadDownloadDir();
+    }
 
     public static async Task LoadAccount()
     {
@@ -33,8 +40,27 @@ public static class AccountService
 
     public static async void SaveAccount(string? Username, string? Password)
     {
-        await AccountService.Settings.SaveSettingAsync("Username", Username);
-        await AccountService.Settings.SaveSettingAsync("Password", Password);
-        AccountService.accountExisted = true;
+        await Settings.SaveSettingAsync("Username", Username);
+        await Settings.SaveSettingAsync("Password", Password);
+        accountExisted = true;
     }
+
+    public static bool CheckAccountExisted() => accountExisted;
+
+    public static async void SetDownloadDir(string DownloadDir)
+    {
+        await Settings.SaveSettingAsync("DownloadDir", DownloadDir);
+        downloadDir = DownloadDir;
+        Debug.WriteLine($"SetDownloadDir:{downloadDir}");
+    }
+
+    public static async void LoadDownloadDir()
+    {
+        downloadDir = await Settings.ReadSettingAsync<string>("DownloadDir");
+        downloadDir ??= Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+        Debug.WriteLine($"DownloadDir:{downloadDir}");
+    }
+
+    public static string GetDownloadDir() => downloadDir;
+
 }

@@ -35,7 +35,6 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
     public async void Initialize()
     {
         Courses = new ObservableCollection<Course>();
-        await AccountService.LoadAccount();
     }
 
     public void OnNavigatedFrom()
@@ -95,9 +94,10 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
 
     public async void AttachmentClicked(Homework? homework)
     {
+        var downloadDir = CustomSettingsService.GetDownloadDir();
         var filename = homework?.Details[0].AttachmentName;
         var cclj = homework?.Details[0].cclj;
-        var filePath = await spocService.DownloadAttachment(filename, cclj);
+        var filePath = await spocService.DownloadAttachment(filename, cclj, downloadDir);
         var file = await Windows.Storage.StorageFile.GetFileFromPathAsync(filePath);
         _ = await Launcher.LaunchFileAsync(file);
     }

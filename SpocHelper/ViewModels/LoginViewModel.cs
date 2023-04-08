@@ -40,7 +40,7 @@ public partial class LoginViewModel : ObservableRecipient, INavigationAware
     [ICommand]
     public async Task Login()
     {
-        AccountService.SetAccount(Username, Password);
+        CustomSettingsService.SetAccount(Username, Password);
         var success = await SSOService.SSOLoginAsync();
         if (!success)
         {
@@ -50,7 +50,7 @@ public partial class LoginViewModel : ObservableRecipient, INavigationAware
         else
         {
             Debug.WriteLine("Success");
-            AccountService.SaveAccount(Username, Password);
+            CustomSettingsService.SaveAccount(Username, Password);
             _navigationService.NavigateTo(typeof(HomeworkViewModel).FullName!);
             await Task.CompletedTask;
         }

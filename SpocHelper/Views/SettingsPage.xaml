@@ -45,6 +45,12 @@
                         </settingsUI:Setting.ActionContent>
                     </settingsUI:Setting>
 
+                    <settingsUI:Setting x:Uid="Settings_ChangeFileDirectory" Icon="&#xE896;">
+                        <settingsUI:Setting.ActionContent>
+                            <Button x:Uid="Settings_ChangeFileDirectory_Button" Click="SetDowloadDirectory_Click" ToolTipService.ToolTip="{x:Bind ViewModel.currentDownloadDir,Mode=OneWay}"/>
+                        </settingsUI:Setting.ActionContent>
+                    </settingsUI:Setting>
+
 
                     <!--<settingsUI:SettingExpander>
                         <settingsUI:SettingExpander.Header>

@@ -94,13 +94,12 @@ public class SpocService : ISpocService
         {
             CourseList[i].HomeworkList.RemoveAll(homework => homework.Details.Count() == 0);
         }
-        //CourseList.RemoveAll(course => course.HomeworkList.Count == 0);
     }
 
-    public async Task<string> DownloadAttachment(string AttachmentName, string cclj)
+    public async Task<string> DownloadAttachment(string AttachmentName, string cclj, string DowloadDir)
     {
         var fileName = Path.GetFileName(AttachmentName).ToLower(); // 将文件名中的后缀名部分转换为小写
-        var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", fileName);
+        var filePath = Path.Combine(DowloadDir, fileName);
 
         if (!File.Exists(filePath))
         {

@@ -46,8 +46,8 @@ public sealed partial class HomeworkPage : Page
         if (filepath != null)
         {
             ViewModel.UploadFile(homework, filepath);
+            Debug.WriteLine(filepath);
         }
-        Debug.WriteLine(filepath);
         ToolTipService.SetToolTip((Button)sender, filepath); 
     }
 }

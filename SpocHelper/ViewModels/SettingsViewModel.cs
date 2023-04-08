@@ -25,6 +25,8 @@ public partial class SettingsViewModel : ObservableRecipient
     private ElementTheme _elementTheme;
     private string _versionDescription;
 
+    public string currentDownloadDir => CustomSettingsService.GetDownloadDir();
+
     public ElementTheme ElementTheme
     {
         get => _elementTheme;
@@ -81,7 +83,7 @@ public partial class SettingsViewModel : ObservableRecipient
     [ICommand]
     public async Task ChangeAccount()
     {
-        AccountService.SaveAccount(null,null);
+        CustomSettingsService.SaveAccount(null,null);
         _navigationService.NavigateTo(typeof(LoginViewModel).FullName!);
         await Task.CompletedTask;
     }

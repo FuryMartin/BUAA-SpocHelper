@@ -23,9 +23,9 @@ public class DefaultActivationHandler : ActivationHandler<LaunchActivatedEventAr
 
     protected async override Task HandleInternalAsync(LaunchActivatedEventArgs args)
     {
-        await AccountService.LoadAccount();
+        await CustomSettingsService.LoadAccount();
         //_navigationService.NavigateTo(typeof(LoginViewModel).FullName!, args.Arguments);
-        if (AccountService.accountExisted)
+        if (CustomSettingsService.CheckAccountExisted())
         {
             _navigationService.NavigateTo(typeof(HomeworkViewModel).FullName!, args.Arguments);
         }
