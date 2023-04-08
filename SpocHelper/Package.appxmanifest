@@ -13,7 +13,7 @@
   <Identity
     Name="31700Y.Fan.SpocHelper"
     Publisher="CN=6466E4E5-DD78-4F7F-B696-7C4AAC7CCFD9"
-    Version="1.0.5.0" />
+    Version="1.0.9.0" />
 
   <mp:PhoneIdentity PhoneProductId="e2ed562e-0096-4ed8-a778-63c749ccac70" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

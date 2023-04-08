@@ -34,12 +34,12 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="100"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="80"/>
                             <ColumnDefinition Width="50"/>
                         </Grid.ColumnDefinitions>
-                        <FontIcon Grid.Column="0"  Glyph="&#xF156;" Margin="0 0 0 0 " HorizontalAlignment="Center"/>
+                        <FontIcon Grid.Column="0"  Glyph="&#xF156;" Margin="50 0 0 0 " HorizontalAlignment="Center"/>
                         <TextBlock Grid.Column="1"  Text="{Binding Name}" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center"/>
                         <TextBlock x:Uid="NewHomeworkDescription" Grid.Column="2"  FontSize="14" HorizontalAlignment="Right"/>
                         <TextBlock Grid.Column="3"  Text="{Binding UnSubmitedCount}"  FontSize="14" HorizontalAlignment="Left"/>
@@ -55,14 +55,14 @@
         </DataTemplate>
 
         <DataTemplate x:Key="HomeworkTemplate" x:DataType="models:Homework">
-            <Grid HorizontalAlignment="Stretch" Margin="0 5 0 5">
+            <Grid HorizontalAlignment="Stretch" Margin="20 5 20 5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="150"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="220"/>
+                    <ColumnDefinition Width="180"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Margin="10 0 0 0" Text="{Binding Details[0].EndDate}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 <HyperlinkButton x:Uid="AttachmentButton" Grid.Column="1" Grid.Row="0" Margin="0 0 40 0" IsEnabled="{Binding Details[0].AttachmentExisted}" ToolTipService.ToolTip="{Binding Details[0].AttachmentName}" Visibility="{Binding Details[0].AttachmentExisted, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center" Click="AttachmentClick"/>
@@ -76,7 +76,7 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="40"/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Uid="ChooseFileButton" Grid.Column="0" Margin="0" Content="选择文件" HorizontalAlignment="Center" Click="FilePickClick" ToolTipService.ToolTip=""/>
+                    <Button x:Uid="ChooseFileButton" Grid.Column="0" Margin="0" HorizontalAlignment="Center" Click="FilePickClick" ToolTipService.ToolTip=""/>
                     <Button x:Uid="SubmitButton" Grid.Column="1" Margin="0" Style="{StaticResource AccentButtonStyle}"  HorizontalAlignment="Center" Click="SubmitClick" ToolTipService.ToolTip="{Binding Details[0].ResubmitEnable, Converter={StaticResource ReSubmitDescriptionConverter}}" Visibility="{Binding Details[0].ResubmitEnable, Converter={StaticResource BoolToVisibilityConverter}}" IsEnabled="{Binding Details[0].ResubmitEnable}"/>
                     <Button x:Uid="SubmitButtonWithFlyout" Grid.Column="1" Margin="0" Style="{StaticResource AccentButtonStyle}"  HorizontalAlignment="Center" ToolTipService.ToolTip="{Binding Details[0].ResubmitEnable, Converter={StaticResource ReSubmitDescriptionConverter}}" Visibility="{Binding Details[0].ResubmitEnable, Converter={StaticResource InverseBoolToVisibilityConverter}}" IsEnabled="{Binding Details[0].ResubmitEnable, Converter={StaticResource InverseBoolConverter}}">
                         <Button.Flyout>
@@ -89,7 +89,7 @@
                         </Button.Flyout>
                     </Button>
 
-                    <FontIcon x:Uid="WasCommitedIcon" Grid.Column="2" Glyph="&#xF16C;" VerticalAlignment="Center" Foreground="green" Visibility="{Binding Details[0].WasSubmitted, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <FontIcon x:Uid="WasCommitedIcon" Grid.Column="2" Glyph="&#xF16C;" Margin="0 0 20 0" VerticalAlignment="Center" Foreground="green" Visibility="{Binding Details[0].WasSubmitted, Converter={StaticResource BoolToVisibilityConverter}}">
                         <ToolTipService.ToolTip>
                             <ToolTip x:Uid="WasCommitedTooTip"/>
                         </ToolTipService.ToolTip>

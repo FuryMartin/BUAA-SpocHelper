@@ -32,7 +32,7 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
         Initialize();
     }
 
-    public async void Initialize()
+    public void Initialize()
     {
         Courses = new ObservableCollection<Course>();
     }
