@@ -51,7 +51,7 @@ public partial class LoginViewModel : ObservableRecipient, INavigationAware
         {
             Debug.WriteLine("Success");
             AccountService.SaveAccount(Username, Password);
-            _navigationService.NavigateTo(typeof(BlankViewModel).FullName!);
+            _navigationService.NavigateTo(typeof(HomeworkViewModel).FullName!);
             await Task.CompletedTask;
         }
     }

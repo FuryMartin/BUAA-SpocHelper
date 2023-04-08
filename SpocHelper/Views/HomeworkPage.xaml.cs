@@ -10,16 +10,16 @@ using Windows.System;
 
 namespace SpocHelper.Views;
 
-public sealed partial class BlankPage : Page
+public sealed partial class HomeworkPage : Page
 {
-    public BlankViewModel ViewModel
+    public HomeworkViewModel ViewModel
     {
         get;
     }
 
-    public BlankPage()
+    public HomeworkPage()
     {
-        ViewModel = App.GetService<BlankViewModel>();
+        ViewModel = App.GetService<HomeworkViewModel>();
         InitializeComponent();
     }
 

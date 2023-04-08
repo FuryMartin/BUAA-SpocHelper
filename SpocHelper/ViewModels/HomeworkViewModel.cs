@@ -12,7 +12,7 @@ using SpocHelper.Helpers;
 
 namespace SpocHelper.ViewModels;
 
-public partial class BlankViewModel : ObservableRecipient, INavigationAware
+public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
 {
     ISpocService spocService = new SpocService();
     DialogService dialogService = new DialogService();
@@ -27,7 +27,7 @@ public partial class BlankViewModel : ObservableRecipient, INavigationAware
         get; set;
     }
 
-    public BlankViewModel()
+    public HomeworkViewModel()
     {
         Initialize();
     }

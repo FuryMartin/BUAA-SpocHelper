@@ -27,7 +27,7 @@ public class DefaultActivationHandler : ActivationHandler<LaunchActivatedEventAr
         //_navigationService.NavigateTo(typeof(LoginViewModel).FullName!, args.Arguments);
         if (AccountService.accountExisted)
         {
-            _navigationService.NavigateTo(typeof(BlankViewModel).FullName!, args.Arguments);
+            _navigationService.NavigateTo(typeof(HomeworkViewModel).FullName!, args.Arguments);
         }
         else
         {

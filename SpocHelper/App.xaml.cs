@@ -70,8 +70,8 @@ public partial class App : Application
             // Views and ViewModels
             services.AddTransient<LoginViewModel>();
             services.AddTransient<LoginPage>();
-            services.AddTransient<BlankViewModel>();
-            services.AddTransient<BlankPage>();
+            services.AddTransient<HomeworkViewModel>();
+            services.AddTransient<HomeworkPage>();
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SettingsPage>();
             services.AddTransient<ShellPage>();

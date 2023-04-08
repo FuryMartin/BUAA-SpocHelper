@@ -15,7 +15,7 @@ public class PageService : IPageService
     public PageService()
     {
         Configure<SettingsViewModel, SettingsPage>();
-        Configure<BlankViewModel, BlankPage>();
+        Configure<HomeworkViewModel, HomeworkPage>();
         Configure<LoginViewModel, LoginPage>();
     }
 
