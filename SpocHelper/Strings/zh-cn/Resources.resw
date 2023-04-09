@@ -141,7 +141,7 @@
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
     <value>一款基于WinUI 3的 Spoc 助手，为了优雅地查看并提交作业而生。</value>
   </data>
-  <data name="Shell_Blank.Content" xml:space="preserve">
+  <data name="Shell_Homework.Content" xml:space="preserve">
     <value>作业列表</value>
   </data>
   <data name="Shell_Login.Content" xml:space="preserve">

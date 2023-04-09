@@ -141,7 +141,7 @@
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
     <value>Spoc Helper is a WinUI 3-based app designed for elegant viewing and submission of homework assignments.</value>
   </data>
-  <data name="Shell_Blank.Content" xml:space="preserve">
+  <data name="Shell_Homework.Content" xml:space="preserve">
     <value>Homework List</value>
   </data>
   <data name="Shell_Login.Content" xml:space="preserve">
