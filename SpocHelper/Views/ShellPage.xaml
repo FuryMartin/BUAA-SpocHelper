@@ -64,6 +64,11 @@
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7c3;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>-->
+                <NavigationViewItem x:Uid="Shell_Documents" helpers:NavigationHelper.NavigateTo="SpocHelper.ViewModels.DocumentsViewModel">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7c3;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
             </NavigationView.MenuItems>
             <Grid Margin="40 30 40 40">
                 <Frame x:Name="NavigationFrame" />

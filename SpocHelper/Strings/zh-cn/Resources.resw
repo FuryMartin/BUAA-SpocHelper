@@ -254,4 +254,7 @@
   <data name="RateThisApp.Content" xml:space="preserve">
     <value>在商店中给本应用打分</value>
   </data>
+  <data name="Shell_Documents.Content" xml:space="preserve">
+    <value>课程资料</value>
+  </data>
 </root>

@@ -249,4 +249,7 @@ your BUAA account at first</value>
   <data name="RateThisApp.Content" xml:space="preserve">
     <value>Rate this App in Microsoft Store</value>
   </data>
+  <data name="Shell_Documents.Content" xml:space="preserve">
+    <value>Documents</value>
+  </data>
 </root>
