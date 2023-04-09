@@ -1,10 +1,10 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-
-using Microsoft.UI.Xaml.Controls;
-
-using SpocHelper.Contracts.Services;
+﻿using SpocHelper.Contracts.Services;
 using SpocHelper.ViewModels;
 using SpocHelper.Views;
+
+using CommunityToolkit.Mvvm.ComponentModel;
+
+using Microsoft.UI.Xaml.Controls;
 
 namespace SpocHelper.Services;
 
@@ -17,7 +17,6 @@ public class PageService : IPageService
         Configure<SettingsViewModel, SettingsPage>();
         Configure<HomeworkViewModel, HomeworkPage>();
         Configure<LoginViewModel, LoginPage>();
-        Configure<DocumentsViewModel, DocumentsPage>();
     }
 
     public Type GetPageType(string key)

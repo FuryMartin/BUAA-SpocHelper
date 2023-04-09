@@ -63,7 +63,7 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
 
     public async Task GetCourses()
     {
-        var CourseList = await spocService.GetUndoneCourseListAsync();
+        var CourseList = await spocService.GetCourseListAsync();
         foreach (var course in CourseList)
         {
             Courses.Add(course);

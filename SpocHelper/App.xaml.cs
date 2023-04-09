@@ -1,8 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.UI.Xaml;
-
-using SpocHelper.Activation;
+﻿using SpocHelper.Activation;
 using SpocHelper.Contracts.Services;
 using SpocHelper.Core.Contracts.Services;
 using SpocHelper.Core.Services;
@@ -11,6 +7,10 @@ using SpocHelper.Models;
 using SpocHelper.Services;
 using SpocHelper.ViewModels;
 using SpocHelper.Views;
+
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.UI.Xaml;
 
 namespace SpocHelper;
 
@@ -68,8 +68,6 @@ public partial class App : Application
             services.AddSingleton<ISpocService, SpocService>();
 
             // Views and ViewModels
-            services.AddTransient<DocumentsViewModel>();
-            services.AddTransient<DocumentsPage>();
             services.AddTransient<LoginViewModel>();
             services.AddTransient<LoginPage>();
             services.AddTransient<HomeworkViewModel>();
