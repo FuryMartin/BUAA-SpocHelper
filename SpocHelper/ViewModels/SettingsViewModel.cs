@@ -15,6 +15,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel;
+using Windows.System;
 
 namespace SpocHelper.ViewModels;
 
@@ -86,5 +87,11 @@ public partial class SettingsViewModel : ObservableRecipient
         CustomSettingsService.SaveAccount(null,null);
         _navigationService.NavigateTo(typeof(LoginViewModel).FullName!);
         await Task.CompletedTask;
+    }
+
+    [ICommand]
+    public async Task RateThisApp()
+    {
+        await Launcher.LaunchUriAsync(new Uri("ms-windows-store://review/?ProductId=9PM0GCZ6ZD53"));
     }
 }

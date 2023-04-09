@@ -41,13 +41,13 @@
                 <StackPanel Margin="{StaticResource SubContentBlockMargin}">
                     <settingsUI:Setting x:Uid="Settings_ChangeAccount" Icon="&#xE716;">
                         <settingsUI:Setting.ActionContent>
-                            <Button x:Uid="Settings_ChangeAccount_Button" Command="{x:Bind ViewModel.ChangeAccountCommand}"/>
+                            <Button x:Uid="Settings_ChangeAccount_Button" Command="{x:Bind ViewModel.ChangeAccountCommand}" Width="80"/>
                         </settingsUI:Setting.ActionContent>
                     </settingsUI:Setting>
 
                     <settingsUI:Setting x:Uid="Settings_ChangeFileDirectory" Icon="&#xE896;">
                         <settingsUI:Setting.ActionContent>
-                            <Button x:Uid="Settings_ChangeFileDirectory_Button" Click="SetDowloadDirectory_Click" ToolTipService.ToolTip="{x:Bind ViewModel.currentDownloadDir,Mode=OneWay}"/>
+                            <Button x:Uid="Settings_ChangeFileDirectory_Button" Click="SetDowloadDirectory_Click" ToolTipService.ToolTip="{x:Bind ViewModel.currentDownloadDir,Mode=OneWay}" Width="80"/>
                         </settingsUI:Setting.ActionContent>
                     </settingsUI:Setting>
 
@@ -101,14 +101,15 @@
                     <TextBlock x:Uid="Settings_AboutDescription" Style="{ThemeResource BodyTextStyle}" />
                 </StackPanel>
 
-                <TextBlock x:Uid="Settings_GithubRepo" Style="{ThemeResource SubTitleStyle}"/>
+                <TextBlock x:Uid="Settings_Feedback" Style="{ThemeResource SubTitleStyle}"/>
 
-                <StackPanel Margin="{StaticResource SubContentBlockMargin}" Spacing="10">
+                <StackPanel Margin="{StaticResource SubContentBlockMargin}" Spacing="0">
                     <HyperlinkButton x:Uid="GithubRepoLink"/>
+                    <HyperlinkButton x:Uid="RateThisApp" Command="{x:Bind ViewModel.RateThisAppCommand}"/>
                 </StackPanel>
                 
                 <StackPanel Margin="{StaticResource SubContentBlockMargin}" Spacing="10">
-                    <TextBlock x:Uid="CodeWithLove" Margin="0 40 0 0"/>
+                    <TextBlock x:Uid="CodeWithLove" Margin="0 10 0 0"/>
                     <TextBlock Style="{StaticResource BodyTextStyle}" Margin="0 0 0 0" Text="{x:Bind ViewModel.VersionDescription}" />
                 </StackPanel>
 

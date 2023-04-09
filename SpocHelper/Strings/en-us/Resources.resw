@@ -139,7 +139,7 @@
     <value>About this app</value>
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
-    <value>Spoc Toolkit is a WinUI 3-based app designed for elegant viewing and submission of homework assignments.</value>
+    <value>Spoc Helper is a WinUI 3-based app designed for elegant viewing and submission of homework assignments.</value>
   </data>
   <data name="Shell_Blank.Content" xml:space="preserve">
     <value>Homework List</value>
@@ -151,7 +151,7 @@
     <value>Attachment</value>
   </data>
   <data name="ChooseFileButton.Content" xml:space="preserve">
-    <value>ChooseFile</value>
+    <value>Choose</value>
   </data>
   <data name="ConfirmSubmit.Text" xml:space="preserve">
     <value>This assignment can only be submitted once. 
@@ -232,18 +232,21 @@ your BUAA account at first</value>
     <value>Code with ❤️</value>
   </data>
   <data name="GithubRepoLink.Content" xml:space="preserve">
-    <value>BUAA-SpocHelper - FuryMartin</value>
+    <value>Github: BUAA-SpocHelper - FuryMartin</value>
   </data>
   <data name="GithubRepoLink.NavigateUri" xml:space="preserve">
     <value>https://github.com/FuryMartin/BUAA-SpocHelper</value>
   </data>
-  <data name="Settings_GithubRepo.Text" xml:space="preserve">
-    <value>Open Source Repository</value>
+  <data name="Settings_Feedback.Text" xml:space="preserve">
+    <value>Feedback</value>
   </data>
   <data name="Settings_ChangeFileDirectory.Header" xml:space="preserve">
     <value>Download Path</value>
   </data>
   <data name="Settings_ChangeFileDirectory_Button.Content" xml:space="preserve">
     <value>Set</value>
+  </data>
+  <data name="RateThisApp.Content" xml:space="preserve">
+    <value>Rate this App in Microsoft Store</value>
   </data>
 </root>

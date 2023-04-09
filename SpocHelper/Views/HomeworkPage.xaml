@@ -76,7 +76,7 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="40"/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Uid="ChooseFileButton" Grid.Column="0" Margin="0" HorizontalAlignment="Center" Click="FilePickClick" ToolTipService.ToolTip=""/>
+                    <Button x:Uid="ChooseFileButton" Grid.Column="0" Margin="0" Content="Choose" HorizontalAlignment="Center" Click="FilePickClick" ToolTipService.ToolTip=""/>
                     <Button x:Uid="SubmitButton" Grid.Column="1" Margin="0" Style="{StaticResource AccentButtonStyle}"  HorizontalAlignment="Center" Click="SubmitClick" ToolTipService.ToolTip="{Binding Details[0].ResubmitEnable, Converter={StaticResource ReSubmitDescriptionConverter}}" Visibility="{Binding Details[0].ResubmitEnable, Converter={StaticResource BoolToVisibilityConverter}}" IsEnabled="{Binding Details[0].ResubmitEnable}"/>
                     <Button x:Uid="SubmitButtonWithFlyout" Grid.Column="1" Margin="0" Style="{StaticResource AccentButtonStyle}"  HorizontalAlignment="Center" ToolTipService.ToolTip="{Binding Details[0].ResubmitEnable, Converter={StaticResource ReSubmitDescriptionConverter}}" Visibility="{Binding Details[0].ResubmitEnable, Converter={StaticResource InverseBoolToVisibilityConverter}}" IsEnabled="{Binding Details[0].ResubmitEnable, Converter={StaticResource InverseBoolConverter}}">
                         <Button.Flyout>
