@@ -26,7 +26,7 @@ public partial class SettingsViewModel : ObservableRecipient
     private ElementTheme _elementTheme;
     private string _versionDescription;
 
-    public string currentDownloadDir => CustomSettingsService.GetDownloadDir();
+    public string? currentDownloadDir => CustomSettingsService.GetDownloadDir();
 
     public ElementTheme ElementTheme
     {
