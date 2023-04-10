@@ -25,11 +25,13 @@ public sealed partial class HomeworkPage : Page
 
     private async void SubmitClick(object sender, RoutedEventArgs e)
     {
-        var button = (Button)sender;
         var homework = ((Button)sender).DataContext as Homework;
-        var success = await ViewModel.SubmitClicked(homework);
-        //button.Flyout.Hide();
-        Debug.WriteLine(success);
+        if (homework != null)
+        {
+            var success = await ViewModel.SubmitClicked(homework);
+            //button.Flyout.Hide();
+            Debug.WriteLine(success);
+        }
     }
 
     private void AttachmentClick(object sender, RoutedEventArgs e)
@@ -41,13 +43,17 @@ public sealed partial class HomeworkPage : Page
     private async void FilePickClick(object sender, RoutedEventArgs e)
     {
         var homework = ((Button)sender).DataContext as Homework;
-        // Clear previous returned file name, if it exists, between iterations of this scenario
-        var filepath = await FilePickHelper.OpenFilePicker();
-        if (filepath != null)
+        if (homework != null)
         {
-            ViewModel.UploadFile(homework, filepath);
-            Debug.WriteLine(filepath);
+            // Clear previous returned file name, if it exists, between iterations of this scenario
+            var filepath = await FilePickHelper.OpenFilePicker();
+            if (filepath != null)
+            {
+                ViewModel.UploadFile(homework, filepath);
+                Debug.WriteLine(filepath);
+            }
+            ToolTipService.SetToolTip((Button)sender, filepath);
         }
-        ToolTipService.SetToolTip((Button)sender, filepath); 
+        
     }
 }

@@ -8,7 +8,7 @@ public static class AESHelper
     private static readonly byte[] Key = Encoding.UTF8.GetBytes("YG5^v%bb&FX6YS!Y");
     private static readonly byte[] IV = Encoding.UTF8.GetBytes("36JGQ%bYssG$k*v#");
 
-    public static string? Encrypt(string? plainText)
+    public static string Encrypt(string plainText)
     {
         if (plainText == null)
         {
@@ -34,7 +34,7 @@ public static class AESHelper
         return Convert.ToBase64String(encrypted);
     }
 
-    public static string? Decrypt(string? cipherText)
+    public static string Decrypt(string cipherText)
     {
         if (cipherText == null)
         {

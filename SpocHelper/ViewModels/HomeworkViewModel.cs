@@ -29,11 +29,6 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
 
     public HomeworkViewModel()
     {
-        Initialize();
-    }
-
-    public void Initialize()
-    {
         Courses = new ObservableCollection<Course>();
     }
 

@@ -11,7 +11,7 @@ public static class CustomSettingsService
 {
     public static readonly IFileService fileService = new FileService();
     public static readonly ILocalSettingsService Settings = new LocalSettingsService(fileService, Options.Create(new LocalSettingsOptions { }));
-    private static string downloadDir; 
+    private static string? downloadDir; 
     private static bool accountExisted;
 
     static CustomSettingsService()
@@ -55,6 +55,6 @@ public static class CustomSettingsService
         downloadDir ??= Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
     }
 
-    public static string GetDownloadDir() => downloadDir;
+    public static string? GetDownloadDir() => downloadDir;
 
 }
