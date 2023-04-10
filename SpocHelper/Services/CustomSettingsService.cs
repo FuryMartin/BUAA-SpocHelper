@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SpocHelper.Contracts.Services;
+﻿using SpocHelper.Contracts.Services;
 using SpocHelper.Core.Contracts.Services;
 using SpocHelper.Core.Models;
+using SpocHelper.Core.Helpers;
 using SpocHelper.Core.Services;
 using SpocHelper.Models;
 using Microsoft.Extensions.Options;
@@ -21,14 +16,15 @@ public static class CustomSettingsService
 
     static CustomSettingsService()
     {
-        //LoadAccount();
         LoadDownloadDir();
     }
 
     public static async Task LoadAccount()
     {
-        Account.Username = await Settings.ReadSettingAsync<string>("Username");
-        Account.Password = await Settings.ReadSettingAsync<string>("Password");
+        var Username = await Settings.ReadSettingAsync<string>("Username");
+        var Password = await Settings.ReadSettingAsync<string>("Password");
+        Account.Username = AESHelper.Decrypt(Username);
+        Account.Password = AESHelper.Decrypt(Password);
         accountExisted = Account.Username != null || Account.Password != null;
     }
 
@@ -40,8 +36,8 @@ public static class CustomSettingsService
 
     public static async void SaveAccount(string? Username, string? Password)
     {
-        await Settings.SaveSettingAsync("Username", Username);
-        await Settings.SaveSettingAsync("Password", Password);
+        await Settings.SaveSettingAsync("Username", AESHelper.Encrypt(Username));
+        await Settings.SaveSettingAsync("Password", AESHelper.Encrypt(Password));
         accountExisted = true;
     }
 
@@ -51,14 +47,12 @@ public static class CustomSettingsService
     {
         await Settings.SaveSettingAsync("DownloadDir", DownloadDir);
         downloadDir = DownloadDir;
-        Debug.WriteLine($"SetDownloadDir:{downloadDir}");
     }
 
     public static async void LoadDownloadDir()
     {
         downloadDir = await Settings.ReadSettingAsync<string>("DownloadDir");
         downloadDir ??= Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
-        Debug.WriteLine($"DownloadDir:{downloadDir}");
     }
 
     public static string GetDownloadDir() => downloadDir;
