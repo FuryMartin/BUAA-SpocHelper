@@ -18,6 +18,7 @@ public partial class LoginViewModel : ObservableRecipient, INavigationAware
     //private ISSOService ssoService = new SSOService();
     private readonly INavigationService _navigationService;
     readonly DialogService dialogService = new DialogService();
+    delegate Task<bool> SSOLoginAsyncDelegate();
 
     [ObservableProperty]
     public string? username;
@@ -40,8 +41,20 @@ public partial class LoginViewModel : ObservableRecipient, INavigationAware
     [ICommand]
     public async Task Login()
     {
+        // 用于微软商店进行测试
         CustomSettingsService.SetAccount(Username, Password);
-        var success = await SSOService.SSOLoginAsync();
+        Debug.WriteLine(Account.Username+ " " + Account.Password);
+        SSOLoginAsyncDelegate loginAsyncDelegate;
+        if (Account.IsTestAccount())
+        {
+            loginAsyncDelegate = TestService.TestLogin;
+        }
+        else
+        {
+            loginAsyncDelegate = SSOService.SSOLoginAsync;
+        }
+
+        var success = await loginAsyncDelegate();
         if (!success)
         {
             Debug.WriteLine("Failed");

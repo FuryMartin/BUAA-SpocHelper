@@ -16,7 +16,11 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
 {
     ISpocService spocService = new SpocService();
     DialogService dialogService = new DialogService();
-    
+    delegate Task<IEnumerable<Course>> GetCourseListAsyncDelegate();
+    delegate Task<string> DownloadAttachmentDelegate(string AttachmentName, string cclj, string DowloadDir);
+    delegate Task UploadFileDelegate(string filePath, string CourseID);
+    delegate Task<bool> SubmitHomeworkDelegate(HomeworkDetails detail);
+
     [ObservableProperty]
     public bool pageLoading = true;
 
@@ -58,7 +62,17 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
 
     public async Task GetCourses()
     {
-        var CourseList = await spocService.GetCourseListAsync();
+        GetCourseListAsyncDelegate getCourseListAsync;
+        if (Account.IsTestAccount())
+        {
+            getCourseListAsync = TestService.GetCourseListAsync;
+        }
+        else
+        {
+            getCourseListAsync = spocService.GetCourseListAsync;
+        }
+
+        var CourseList = await getCourseListAsync();
         foreach (var course in CourseList)
         {
             Courses.Add(course);
@@ -68,13 +82,23 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
 
     public async Task<bool> SubmitClicked(Homework homework)
     {
+        SubmitHomeworkDelegate submitHomework;
+        if (Account.IsTestAccount())
+        {
+            submitHomework = TestService.SubmitHomework;
+        }
+        else
+        {
+            submitHomework = spocService.SubmitHomework;
+        }
+
         Debug.WriteLine("Clicked");
         if (homework.Details[0].FilePathToUpload == null)
         {
             await dialogService.ShowConfirmationDialog("SubmitError".GetLocalized(), "FileUnselected".GetLocalized());
             return false;
         }
-        var res = await spocService.SubmitHomework(homework.Details[0]);
+        var res = await submitHomework(homework.Details[0]);
         if (res)
         {
             await dialogService.ShowConfirmationDialog("SubmitSuccess".GetLocalized(), "SubmitCongratulation".GetLocalized());
@@ -89,18 +113,38 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
 
     public async void AttachmentClicked(Homework? homework)
     {
+        DownloadAttachmentDelegate downloadAttachment;
+        if (Account.IsTestAccount())
+        {
+            downloadAttachment = TestService.DownloadAttachment;
+        }
+        else
+        {
+            downloadAttachment = spocService.DownloadAttachment;
+        }
+
         var downloadDir = CustomSettingsService.GetDownloadDir();
         var filename = homework?.Details[0].AttachmentName;
         var cclj = homework?.Details[0].cclj;
-        var filePath = await spocService.DownloadAttachment(filename, cclj, downloadDir);
+        var filePath = await downloadAttachment(filename, cclj, downloadDir);
         var file = await Windows.Storage.StorageFile.GetFileFromPathAsync(filePath);
         _ = await Launcher.LaunchFileAsync(file);
     }
 
     public async void UploadFile(Homework homework, string filePath)
     {
+        UploadFileDelegate uploadFile;
+        if (Account.IsTestAccount())
+        {
+            uploadFile = TestService.UploadFile;
+        }
+        else
+        {
+            uploadFile = spocService.UploadFile;
+        }
+
         var courseID = homework.CourseID;
         homework.Details[0].FilePathToUpload = filePath;
-        await spocService.UploadFile(filePath, courseID);
+        await uploadFile(filePath, courseID);
     }
 }
