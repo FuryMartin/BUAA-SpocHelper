@@ -1,5 +1,6 @@
 ﻿using SpocHelper.Core.Helpers;
 using Newtonsoft.Json;
+using System.Net.Mail;
 
 namespace SpocHelper.Core.Models;
 public class Homework
@@ -39,9 +40,32 @@ public class HomeworkDetails
 {
 
     [JsonProperty("mc11")]  // 作业文本描述
-    public string Description
+    public string MC11
     {
         get; set;
+    }
+
+    public string Description
+    {
+        get
+        {
+            var att_prefix = "附件：";
+
+            if (MC11 == null)
+            {
+                return att_prefix + AttachmentName;
+            }
+            else if (AttachmentName == null)
+            {
+                var des_prefix = MC11.Contains("\n") ? "作业要求：\n" : "作业要求：";
+                return des_prefix + MC11.Replace("<p>", "").Replace("</p>", "");
+            }
+            else
+            {
+                var des_prefix = MC11.Contains("\n") ? "作业要求：\n" : "作业要求：";
+                return des_prefix + MC11.Replace("<p>", "").Replace("</p>", "") + "\n\n" + att_prefix + AttachmentName;
+            }
+        }
     }
 
     [JsonProperty("fjzyyxcftj")] // 允许重复提交
@@ -59,20 +83,13 @@ public class HomeworkDetails
         get; set;
     }
 
-    private string _AttachmentName;
-
     [JsonProperty("fjmc")]  // 附件名称
     public string AttachmentName
     {
-        get => _AttachmentName;
-        set
-        {
-            AttachmentExisted = (value == null) ? false : true;
-            _AttachmentName = value ?? Description.Replace("<p>", "").Replace("</p>", "");
-        }
+        get; set;
     }
 
-    public bool AttachmentExisted { get; set; }
+    public bool AttachmentExisted  => AttachmentName != null;
 
     [JsonProperty("fjzykssj")] // 作业发布时间
     public string BeginDate

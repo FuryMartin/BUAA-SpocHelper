@@ -65,8 +65,8 @@
                     <ColumnDefinition Width="180"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Margin="10 0 0 0" Text="{Binding Details[0].EndDate}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <HyperlinkButton x:Uid="AttachmentButton" Grid.Column="1" Grid.Row="0" Margin="0 0 40 0" IsEnabled="{Binding Details[0].AttachmentExisted}" ToolTipService.ToolTip="{Binding Details[0].AttachmentName}" Visibility="{Binding Details[0].AttachmentExisted, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center" Click="AttachmentClick"/>
-                <TextBlock x:Uid="FakeAttachmentButton" Grid.Column="1" Grid.Row="0" Margin="0 0 40 0" Text="附件" Visibility="{Binding Details[0].AttachmentExisted, Converter={StaticResource InverseBoolToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Gray" ToolTipService.ToolTip="{Binding Details[0].AttachmentName}"/>
+                <HyperlinkButton x:Uid="AttachmentButton" Grid.Column="1" Grid.Row="0" Margin="0 0 40 0" IsEnabled="{Binding Details[0].AttachmentExisted}" ToolTipService.ToolTip="{Binding Details[0].Description}" Visibility="{Binding Details[0].AttachmentExisted, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center" Click="AttachmentClick"/>
+                <TextBlock x:Uid="FakeAttachmentButton" Grid.Column="1" Grid.Row="0" Margin="0 0 40 0" Text="附件" Visibility="{Binding Details[0].AttachmentExisted, Converter={StaticResource InverseBoolToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Gray" ToolTipService.ToolTip="{Binding Details[0].Description}"/>
                 <Grid Grid.Column="2" Grid.Row="0" Margin="0 0 0 0" ColumnSpacing="8">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
