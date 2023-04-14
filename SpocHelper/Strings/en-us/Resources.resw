@@ -249,4 +249,7 @@ your BUAA account at first</value>
   <data name="RateThisApp.Content" xml:space="preserve">
     <value>Rate this App in Microsoft Store</value>
   </data>
+  <data name="AllDoneTextBlock.Text" xml:space="preserve">
+    <value>All Done!</value>
+  </data>
 </root>

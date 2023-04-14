@@ -112,15 +112,33 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="48"/>
                 </Grid.RowDefinitions>
                 <ItemsRepeater Grid.Row="0"
-               ItemsSource="{x:Bind ViewModel.Courses}"
-               Layout="{StaticResource VerticalStackLayout}"
-               ItemTemplate="{StaticResource CourseTemplate}" />
+                       ItemsSource="{x:Bind ViewModel.Courses}"
+                       Layout="{StaticResource VerticalStackLayout}"
+                       ItemTemplate="{StaticResource CourseTemplate}" />
+                <RelativePanel Grid.Row="1" VerticalAlignment="Stretch" Margin="{StaticResource NavigationViewPageContentMargin}" Visibility="{x:Bind ViewModel.AllDone, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                     <Image
+                        x:Name="StatusIcon"
+                        Width="114"
+                        Height="114"
+                        RelativePanel.AlignHorizontalCenterWithPanel="True"
+                        RelativePanel.AlignVerticalCenterWithPanel="True"
+                        Source="/Assets/AllDone.png" />
+                    <TextBlock
+                        x:Uid="AllDoneTextBlock"
+                        Margin="0,24,0,0"
+                        FontSize="18"
+                        RelativePanel.AlignHorizontalCenterWithPanel="True"
+                        RelativePanel.Below="{x:Bind StatusIcon}"
+                        TextAlignment="Center"
+                        TextWrapping="WrapWholeWords" />    
+                </RelativePanel>
                 <ProgressRing Grid.Row="1"
-                Width="48"
-                Height="48"
-                IsActive="{x:Bind ViewModel.PageLoading,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />  
+                    Width="48"
+                    Height="48"
+                    IsActive="{x:Bind ViewModel.PageLoading,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </ScrollViewer>
     </Grid>

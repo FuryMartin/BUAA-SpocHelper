@@ -65,7 +65,11 @@ public static class TestService
         CourseList = JsonConvert.DeserializeObject<List<Course>>(CourseListJson["result"].ToString());
 
         await GetHomeworkList();
-        StudentID = CourseList[0].HomeworkList[0].StudentID;
+
+        if (CourseList.Count() > 0)
+        {
+            StudentID = CourseList[0].HomeworkList[0].StudentID;
+        }
 
         return CourseList;
     }

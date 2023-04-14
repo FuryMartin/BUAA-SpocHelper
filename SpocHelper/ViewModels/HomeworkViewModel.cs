@@ -24,6 +24,9 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
     [ObservableProperty]
     public bool pageLoading = true;
 
+    [ObservableProperty]
+    public bool allDone = false;
+
     public string ReSubmitEnabledDescription => "ReSubmitEnabled".GetLocalized();
     public string ReSubmitDisabledDescription => "ReSubmitDisabled".GetLocalized();
     public ObservableCollection<Course> Courses
@@ -49,6 +52,7 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
     {
         try
         {
+            AllDone = false;
             PageLoading = true;
             Courses.Clear();
             await GetCourses();
@@ -73,11 +77,17 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
         }
 
         var CourseList = await getCourseListAsync();
-        foreach (var course in CourseList)
+        if (CourseList.Count() != 0)
         {
-            Courses.Add(course);
+            foreach (var course in CourseList)
+            {
+                Courses.Add(course);
+            }
         }
-        Debug.WriteLine("Break");
+        else
+        {
+            AllDone = true;
+        }
     }
 
     public async Task<bool> SubmitClicked(Homework homework)
