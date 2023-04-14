@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  让 Spoc 作业提交更加优雅 
+  优雅地使用Spoc！
 </p>
 
 
@@ -22,9 +22,13 @@
 
 Spoc 助手是一款基于 WinUI 3 的 Windows 10/11 应用，能够让 BUAAers 优雅地完成作业查看和提交。
 
+## 🎉 主要功能
+- 查看新发布的作业
+- 提交完成的作业
+
 ## 🥳 使用
 
-- 🌐 通过微软商店下载本应用：[Spoc Helper](https://apps.microsoft.com/store/detail/9PM0GCZ6ZD53?launch=true&mode=full)
+- 🌐 通过微软商店下载本应用：[Spoc 助手](https://apps.microsoft.com/store/detail/9PM0GCZ6ZD53?launch=true&mode=full)
 - 🐼 使用统一认证账号登录（你的账号信息将仅保存在本地😊）
 - 🎉 查看作业并提交
 
