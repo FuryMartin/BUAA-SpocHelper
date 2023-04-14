@@ -15,6 +15,15 @@
   优雅地使用Spoc！
 </p>
 
+<p align="center">
+  <a href="https://github.com/FuryMartin/BUAA-SpocHelper/releases/tag/v1.0.12" target="_blank" >
+    <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/FuryMartin/BUAA-SpocHelper?label=%E7%89%88%E6%9C%AC">
+  </a>
+  <a href="https://www.microsoft.com/store/productId/9PM0GCZ6ZD53" target="_blank" >
+    <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fmicrosoft-store-badge.fly.dev%2Fapi%2Frating%3FstoreId%3D9PM0GCZ6ZD53%26market%3DCN&style=flat&label=%E5%BE%AE%E8%BD%AF%E5%95%86%E5%BA%97%E8%AF%84%E5%88%86&color=brightgreen&logo=" alt="微软商店评分" />
+  </a>
+</p>
+
 
 ![ScreenShot](.github/images/ScreenShot.png)
 
