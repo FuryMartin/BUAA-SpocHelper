@@ -180,7 +180,7 @@
     <value>提交</value>
     <comment>提交</comment>
   </data>
-  <data name="SubmitButtonWithFlyout" xml:space="preserve">
+  <data name="SubmitButtonWithFlyout.Content" xml:space="preserve">
     <value>提交</value>
     <comment>提交</comment>
   </data>

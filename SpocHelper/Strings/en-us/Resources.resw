@@ -176,7 +176,7 @@ Are you sure you want to submit it?</value>
   <data name="SubmitButton.Content" xml:space="preserve">
     <value>Commit</value>
   </data>
-  <data name="SubmitButtonWithFlyout" xml:space="preserve">
+  <data name="SubmitButtonWithFlyout.Content" xml:space="preserve">
     <value>Commit</value>
   </data>
   <data name="ConfirmAccountInfo" xml:space="preserve">
