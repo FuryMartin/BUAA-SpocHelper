@@ -38,7 +38,7 @@ public partial class LoginViewModel : ObservableRecipient, INavigationAware
         Password = Account.Password;
     }
 
-    [ICommand]
+    [RelayCommand]
     public async Task Login()
     {
         // 用于微软商店进行测试

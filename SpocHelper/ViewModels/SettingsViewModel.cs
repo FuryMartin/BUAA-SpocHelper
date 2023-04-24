@@ -40,7 +40,7 @@ public partial class SettingsViewModel : ObservableRecipient
         set => SetProperty(ref _versionDescription, value);
     }
 
-    public ICommand SwitchThemeCommand
+    public RelayCommand<ElementTheme> SwitchThemeCommand
     {
         get;
     }
@@ -81,7 +81,7 @@ public partial class SettingsViewModel : ObservableRecipient
         return $"{"AppDisplayName".GetLocalized()} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
     }
 
-    [ICommand]
+    [RelayCommand]
     public async Task ChangeAccount()
     {
         CustomSettingsService.SaveAccount(null,null);
@@ -89,7 +89,7 @@ public partial class SettingsViewModel : ObservableRecipient
         await Task.CompletedTask;
     }
 
-    [ICommand]
+    [RelayCommand]
     public async Task RateThisApp()
     {
         await Launcher.LaunchUriAsync(new Uri("ms-windows-store://review/?ProductId=9PM0GCZ6ZD53"));
