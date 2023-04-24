@@ -45,28 +45,6 @@ public class HomeworkDetails
         get; set;
     }
 
-    public string Description
-    {
-        get
-        {
-            var att_prefix = "附件：";
-
-            if (MC11 == null)
-            {
-                return att_prefix + AttachmentName;
-            }
-            else if (AttachmentName == null)
-            {
-                var des_prefix = MC11.Contains("\n") ? "作业要求：\n" : "作业要求：";
-                return des_prefix + MC11.Replace("<p>", "").Replace("</p>", "");
-            }
-            else
-            {
-                var des_prefix = MC11.Contains("\n") ? "作业要求：\n" : "作业要求：";
-                return des_prefix + MC11.Replace("<p>", "").Replace("</p>", "") + "\n\n" + att_prefix + AttachmentName;
-            }
-        }
-    }
 
     [JsonProperty("fjzyyxcftj")] // 允许重复提交
     public string fjzyyxcftj
@@ -75,8 +53,7 @@ public class HomeworkDetails
     }
 
     public bool ResubmitEnable => fjzyyxcftj == "1" ? true : false;
-    //public string ResubmitEnableDescription => ResubmitEnable ? "允许重复提交" : "不允许重复提交";
-
+    
     [JsonProperty("cclj")]  // 附件路径
     public string cclj
     {
