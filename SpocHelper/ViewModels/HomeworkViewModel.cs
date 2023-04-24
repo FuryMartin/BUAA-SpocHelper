@@ -14,12 +14,12 @@ namespace SpocHelper.ViewModels;
 
 public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
 {
-    ISpocService spocService = new SpocService();
-    DialogService dialogService = new DialogService();
-    delegate Task<IEnumerable<Course>> GetCourseListAsyncDelegate();
-    delegate Task<string> DownloadAttachmentDelegate(string AttachmentName, string cclj, string DowloadDir);
-    delegate Task UploadFileDelegate(string filePath, string CourseID);
-    delegate Task<bool> SubmitHomeworkDelegate(HomeworkDetails detail);
+    private readonly ISpocService spocService = new SpocService();
+    private readonly DialogService dialogService = new ();
+    private delegate Task<IEnumerable<Course>> GetCourseListAsyncDelegate();
+    private delegate Task<string> DownloadAttachmentDelegate(string AttachmentName, string cclj, string DowloadDir);
+    private delegate Task UploadFileDelegate(string filePath, string CourseID);
+    private delegate Task<bool> SubmitHomeworkDelegate(HomeworkDetails detail);
 
     [ObservableProperty]
     public bool pageLoading = true;
@@ -136,6 +136,12 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
         var downloadDir = CustomSettingsService.GetDownloadDir();
         var filename = homework?.Details[0].AttachmentName;
         var cclj = homework?.Details[0].cclj;
+
+        if (cclj == null || filename == null || downloadDir == null)
+        {
+            throw new Exception("CCLJ, Filename or downloadDir Maybe NULL");
+        }
+
         var filePath = await downloadAttachment(filename, cclj, downloadDir);
         var file = await Windows.Storage.StorageFile.GetFileFromPathAsync(filePath);
         _ = await Launcher.LaunchFileAsync(file);

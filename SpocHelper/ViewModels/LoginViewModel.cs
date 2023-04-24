@@ -17,8 +17,8 @@ public partial class LoginViewModel : ObservableRecipient, INavigationAware
 {
     //private ISSOService ssoService = new SSOService();
     private readonly INavigationService _navigationService;
-    readonly DialogService dialogService = new DialogService();
-    delegate Task<bool> SSOLoginAsyncDelegate();
+    private readonly DialogService dialogService = new ();
+    private delegate Task<bool> SSOLoginAsyncDelegate();
 
     [ObservableProperty]
     public string? username;

@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ABI.System;
-using Microsoft.AspNetCore.WebUtilities;
+﻿using System.Diagnostics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SpocHelper.Contracts.Services;
 using SpocHelper.Core.Helpers;
 using SpocHelper.Core.Models;
 using SpocHelper.Core.Services;
-using SpocHelper.ViewModels;
 
 namespace SpocHelper.Services;
 
@@ -30,11 +22,12 @@ public static class TestService
 
     private static string? StudentID;
 
-
     private static readonly INavigationService _navigationService;
     static TestService()
     {
         _navigationService = App.GetService<INavigationService>();
+        CourseListJson = new JObject();
+        CourseList = new List<Course>();
     }
 
     public static async Task<bool> TestLogin()
@@ -61,9 +54,9 @@ public static class TestService
         var httpContent = new StringContent(JsonConvert.SerializeObject(data));
         var response = await client.PostAsync("http://47.115.210.183:5000/courses", httpContent);
         var responseText = await response.Content.ReadAsStringAsync();
-        CourseListJson = JObject.Parse(responseText);
-        CourseList = JsonConvert.DeserializeObject<List<Course>>(CourseListJson["result"].ToString());
-
+        CourseListJson = JObject.Parse(responseText) ?? throw new Exception("Response is Null");
+        var obj = JObject.Parse(responseText)["result"] ?? throw new Exception("Response Result is Null");
+        CourseList = JsonConvert.DeserializeObject<List<Course>>(obj.ToString()) ?? throw new Exception("CourseList is Null");
         await GetHomeworkList();
 
         if (CourseList.Count() > 0)
@@ -88,8 +81,8 @@ public static class TestService
             var content = new FormUrlEncodedContent(values);
             var response = await client.PostAsync("http://47.115.210.183:5000/homeworks", content);
             var responseText = await response.Content.ReadAsStringAsync();
-            var obj = JObject.Parse(responseText);
-            CourseList[i].HomeworkList = JsonConvert.DeserializeObject<List<Homework>>(obj["result"].ToString());
+            var obj = JObject.Parse(responseText)["result"] ?? throw new Exception("Response is Null");
+            CourseList[i].HomeworkList = JsonConvert.DeserializeObject<List<Homework>>(obj.ToString());
         }
         ParserUndoneHomework();
     }
@@ -126,7 +119,7 @@ public static class TestService
 
                 return filePath;
             }
-            return null;
+            throw new Exception("Download Failed");
         }
         return filePath;
     }
@@ -157,7 +150,7 @@ public static class TestService
             {"zjdm",  detail.zjdm },
             {"kcdm",  detail.kcdm },
             {"zynrdm", detail.kcnr },
-            {"zynr", null },
+            {"zynr", String.Empty },
             {"zyfjPath", zyfjPath },
             {"zyfjFileName", zyfjFileName },
             {"zyzt", "1" }
@@ -165,7 +158,7 @@ public static class TestService
         var urlSubmit = "http://47.115.210.183:5000/submit";
         var content = new FormUrlEncodedContent(contentDictionary);
         var response = await client.PostAsync(urlSubmit, content);
-        var responseText = await response?.Content.ReadAsStringAsync();
+        var responseText = await response.Content.ReadAsStringAsync();
         Debug.WriteLine(responseText);
 
         return true;

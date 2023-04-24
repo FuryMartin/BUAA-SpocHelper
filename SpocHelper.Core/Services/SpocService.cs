@@ -31,13 +31,11 @@ public class SpocService : ISpocService
 
     public async Task<bool> IsConnected()
     {
-        Debug.WriteLine("Moving into IsConnected");
         try
         {
             var response = await client.GetAsync("https://spoc.buaa.edu.cn/spoc/moocMainIndex/spocWelcome");
             if (response.Headers.Location == null)
             {
-                Debug.WriteLine("Connected");
                 return true;
             }
 
@@ -46,16 +44,29 @@ public class SpocService : ISpocService
         catch (Exception ex) { Debug.WriteLine(ex.Message); Debug.WriteLine("Exception At IsConnected"); return false; }
     }
 
-    public async Task<IEnumerable<Course>> GetCourseListAsync()
+    public async Task EnsureConnected()
     {
         var isConnected = await IsConnected();
-        if(!isConnected) {
+        var count = 0;
+        while(!isConnected)
+        {
+            if(count >= 3)
+            {
+                throw new Exception("Login Error");
+            }
             await SSOService.SSOLoginAsync();
+            isConnected = await IsConnected();
+            count++;
         }
+    }
+
+    public async Task<IEnumerable<Course>> GetCourseListAsync()
+    {
+        client = SSOService.GetHttpClient();
+        await EnsureConnected();
         var data = new { kcmcTab = "", xnxq = "", sfzjkc = 0 };
         var httpContent = new StringContent(JsonConvert.SerializeObject(data));
         var response = await client.PostAsync("https://spoc.buaa.edu.cn/spoc/rdmooc/GetIndividualClassList.do", httpContent);
-        Debug.WriteLine("Course Get");
         var responseText = await response.Content.ReadAsStringAsync();
         CourseListJson = JObject.Parse(responseText);
         CourseList = JsonConvert.DeserializeObject<List<Course>>(CourseListJson["result"].ToString());
@@ -92,7 +103,6 @@ public class SpocService : ISpocService
     public void ParserUndoneHomework()
     {
         CourseList.RemoveAll(course => course.UnSubmitedCount == 0);
-        Debug.WriteLine("Break");
         for (var i = 0; i < CourseList.Count; i++)
         {
             CourseList[i].HomeworkList.RemoveAll(homework => homework.Details.Count() == 0);
