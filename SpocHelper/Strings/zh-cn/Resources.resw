@@ -257,4 +257,13 @@
   <data name="AllDoneTextBlock.Text" xml:space="preserve">
     <value>你已完成所有作业！</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>天</value>
+  </data>
+  <data name="Expired" xml:space="preserve">
+    <value>已过期</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>小时</value>
+  </data>
 </root>

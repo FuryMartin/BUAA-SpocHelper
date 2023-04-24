@@ -252,4 +252,13 @@ your BUAA account at first</value>
   <data name="AllDoneTextBlock.Text" xml:space="preserve">
     <value>All Done!</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="Expired" xml:space="preserve">
+    <value>Expired</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>Hour</value>
+  </data>
 </root>

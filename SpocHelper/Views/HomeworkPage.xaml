@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:SpocHelper.Core.Models"
     xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
-    xmlns:myconverters="using:SpocHelper.Helpers"
+    xmlns:helpers="using:SpocHelper.Helpers"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
     <!--<UserControl.Resources>
@@ -20,8 +20,9 @@
     </UserControl.Resources>-->
 
     <Page.Resources>
-        <converters:StringFormatConverter x:Key="StringFormatConverter" />
-        <myconverters:HomeworkDescriptionConverter x:Key="HomeworkDescriptionConverter" />
+        <converters:StringFormatConverter x:Key="StringFormatConverter"/>
+        <helpers:HomeworkDescriptionConverter x:Key="HomeworkDescriptionConverter" />
+        <helpers:CountdownConverter x:Key="CountdownConverter" />
 
         <converters:BoolToObjectConverter x:Key="BoolToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed"/>
         <converters:BoolToObjectConverter x:Key="InverseBoolToVisibilityConverter" TrueValue="Collapsed" FalseValue="Visible"/>
@@ -66,7 +67,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="180"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Margin="10 0 0 0" Text="{Binding Details[0].EndDate}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Column="0" Margin="-10 0 0 0" Text="{Binding Details[0].EndDate, Converter={StaticResource CountdownConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTipService.ToolTip="{Binding Details[0].EndDate}"  Style="{StaticResource BodyStrongTextBlockStyle}"/>
                 <HyperlinkButton x:Uid="AttachmentButton" Grid.Column="1" Grid.Row="0" Margin="0 0 40 0" IsEnabled="{Binding Details[0].AttachmentExisted}" ToolTipService.ToolTip="{Binding Details[0], Converter={StaticResource HomeworkDescriptionConverter}}" Visibility="{Binding Details[0].AttachmentExisted, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center" Click="AttachmentClick"/>
                 <TextBlock x:Uid="FakeAttachmentButton" Grid.Column="1" Grid.Row="0" Margin="0 0 40 0" Text="附件" Visibility="{Binding Details[0].AttachmentExisted, Converter={StaticResource InverseBoolToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Gray" ToolTipService.ToolTip="{Binding Details[0], Converter={StaticResource HomeworkDescriptionConverter}}"/>
                 <Grid Grid.Column="2" Grid.Row="0" Margin="0 0 0 0" ColumnSpacing="8">
