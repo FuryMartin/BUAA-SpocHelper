@@ -73,7 +73,7 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
         }
         else
         {
-            getCourseListAsync = spocService.GetCourseListAsync;
+            getCourseListAsync = spocService.GetUndoneHomeworkList;
         }
 
         var CourseList = await getCourseListAsync();

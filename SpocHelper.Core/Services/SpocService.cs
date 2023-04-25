@@ -1,16 +1,10 @@
 ﻿using System.Diagnostics;
-using System.Net;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SpocHelper.Core.Contracts.Services;
 using SpocHelper.Core.Models;
 using System.Text;
-using System.Net.Http;
-using System.Web;
-using System.Security.Cryptography;
 using Microsoft.AspNetCore.WebUtilities;
-using System.IO;
 using SpocHelper.Core.Helpers;
 
 namespace SpocHelper.Core.Services;
@@ -18,7 +12,7 @@ public class SpocService : ISpocService
 {
     private HttpClient client;
     public JObject CourseListJson { get; set; }
-    public List<Course> CourseList { get; set; }
+    public static List<Course> CourseList { get; set; }
 
     public string StudentID;
 
@@ -60,7 +54,7 @@ public class SpocService : ISpocService
         }
     }
 
-    public async Task<IEnumerable<Course>> GetCourseListAsync()
+    public async Task GetCourseListAsync()
     {
         client = SSOService.GetHttpClient();
         await EnsureConnected();
@@ -70,43 +64,58 @@ public class SpocService : ISpocService
         var responseText = await response.Content.ReadAsStringAsync();
         CourseListJson = JObject.Parse(responseText);
         CourseList = JsonConvert.DeserializeObject<List<Course>>(CourseListJson["result"].ToString());
-        
-        await GetHomeworkList();
-        if (CourseList.Count() > 0)
-        {
-            StudentID = CourseList[0].HomeworkList[0].StudentID;
-        }
 
-        return CourseList;
+        //var stopwatch = Stopwatch.StartNew();
+        //stopwatch.Start();
+        await GetHomeworkList();
+        //stopwatch.Stop();
+        //Debug.WriteLine("GetHomeworkList: " + stopwatch.ElapsedMilliseconds + " ms");
+        
+        //stopwatch.Reset();
+        //stopwatch.Start();
+        await GetCourseFileList();
+        //stopwatch.Stop();
+        //Debug.WriteLine("GetCourseFile: " + stopwatch.ElapsedMilliseconds + " ms");
     }
 
     public async Task GetHomeworkList()
     {
-        for (var i = 0; i < CourseList.Count; i++)
+        List<Task> tasks = new List<Task>();
+        foreach (var course in CourseList)
         {
-            var course = CourseList[i];
-
-            var values = new Dictionary<string, string>
+            tasks.Add(Task.Run(async () =>
             {
-                { "kcdm", course.Id},
-                { "bjdm", course.Bjdm}
-            };
-            var content = new FormUrlEncodedContent(values);
-            var response = await client.PostAsync("https://spoc.buaa.edu.cn/spoc/mooczygl/queryZylmList_xs", content);
-            var responseText = await response.Content.ReadAsStringAsync();
-            JObject obj = JObject.Parse(responseText);
-            CourseList[i].HomeworkList = JsonConvert.DeserializeObject<List<Homework>>(obj["result"].ToString());
+                var values = new Dictionary<string, string>
+                {
+                    { "kcdm", course.Id},
+                    { "bjdm", course.Bjdm}
+                };
+                var content = new FormUrlEncodedContent(values);
+                var response = await client.PostAsync("https://spoc.buaa.edu.cn/spoc/mooczygl/queryZylmList_xs", content);
+                var responseText = await response.Content.ReadAsStringAsync();
+                var obj = JObject.Parse(responseText);
+                course.HomeworkList = JsonConvert.DeserializeObject<List<Homework>>(obj["result"].ToString());
+
+            }));
         }
-        ParserUndoneHomework();
+        await Task.WhenAll(tasks);
+        
     }
 
-    public void ParserUndoneHomework()
+    public async Task<IEnumerable<Course>> GetUndoneHomeworkList()
     {
-        CourseList.RemoveAll(course => course.UnSubmitedCount == 0);
-        for (var i = 0; i < CourseList.Count; i++)
+        await GetCourseListAsync();
+        var res = CourseList.Where(course => course.UnSubmitedCount > 0)
+                               .Select(course => {
+                                   course.HomeworkList = course.HomeworkList.Where(homework => homework.Details.Count > 0).ToList();
+                                   return course;
+                               })
+                               .ToList();
+        if (res.Count() > 0)
         {
-            CourseList[i].HomeworkList.RemoveAll(homework => homework.Details.Count() == 0);
+            StudentID = res[0].HomeworkList[0].StudentID;
         }
+        return res;
     }
 
     public async Task<string> DownloadAttachment(string AttachmentName, string cclj, string DowloadDir)
@@ -255,6 +264,48 @@ public class SpocService : ISpocService
 
         return true;
     }
+
+    public async Task<IEnumerable<Course>> GetCourseFileList()
+    {
+        List<Task> tasks = new ();
+        foreach (var course in CourseList)
+        {
+            tasks.Add(Task.Run(async () =>
+            {
+                var contentDictionary = new Dictionary<string, string>
+                {
+                    {"kcdm",  course.Id },
+                    {"zlmcTab", string.Empty},
+                };
+                var urlSubmit = "https://spoc.buaa.edu.cn/spoc/courseGroup/queryCourseZlList";
+                var content = new FormUrlEncodedContent(contentDictionary);
+                var response = await client.PostAsync(urlSubmit, content);
+                var responseText = await response?.Content.ReadAsStringAsync();
+                var obj = JObject.Parse(responseText);
+                course.CourseFiles = JsonConvert.DeserializeObject<List<CourseFile>>(obj["result"].ToString());
+                course.CourseFiles.RemoveAll(courseFile => !course.TeacherName.Contains(courseFile.Creator));
+                course.CourseFiles = course.CourseFiles.GroupBy(x => x.FileName).Select(x => x.First()).OrderBy(x => x.FileName).ThenBy(x => x.ClassTime).ToList();
+            }));
+        }
+        await Task.WhenAll(tasks);
+        var res = CourseList.Where(course => course.CourseFiles.Count > 0).ToList();
+
+        foreach (var course in res)
+        {
+            if (course.CourseFiles.Count > 0)
+            {
+                Debug.WriteLine($"{course.Name}:{course.CourseFiles.Count}");
+                //continue;
+            }
+            foreach (var courseFile in course.CourseFiles)
+            {
+                Debug.WriteLine($"Week {courseFile.Week} {courseFile.FileName} {courseFile.CreateDate}");
+            }
+        }
+
+        return res;
+    }
+
 }
 
 

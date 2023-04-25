@@ -22,10 +22,12 @@ public class Course
     }
 
     [JsonProperty("jsxm")]
-    public string TeacherName
+    public string _TeacherName
     {
         get; set;
     }
+
+    public List<String> TeacherName => _TeacherName.Split(",").ToList();
 
     [JsonProperty("yhdm")]
     public string Yhdm
@@ -38,8 +40,12 @@ public class Course
     {
         get; set;
     }
-
     public List<Homework> HomeworkList
+    {
+        get; set;
+    }
+
+    public List<CourseFile> CourseFiles
     {
         get; set;
     }
