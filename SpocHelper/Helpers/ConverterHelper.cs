@@ -52,7 +52,54 @@ public class HomeworkDescriptionConverter : IValueConverter
         return res;
     }
 }
+public class IconPathConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, string language)
+    {
+        if (value is string fileName)
+        {
+            var fileExtension = Path.GetExtension(fileName).ToLower();
+            var iconPath = fileExtension switch
+            {
+                ".pdf" => "pdf.png",
+                ".pptx" or ".ppt" => "ppt.png",
+                ".docx" or ".doc" => "doc.png",
+                ".png" or ".jpg" or ".jpeg" or ".bmp" => "image.png",
+                ".xlsx" or ".xls" => ".xls.png",
+                ".zip" or ".rar" or ".7z" => "zip.png",
+                ".mp4" or ".mov" or ".avi" or ".mkv" or ".wmv" or ".flv" => "video.png",
+                ".mp3" or ".wav" or ".flac" => "music.png",
+                _ => "unknown.png",
+            };
+            return "/Assets/FileTypes/" + iconPath;
+        }
 
+        return "Invaild Path";
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, string language)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public class FileNameConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, string language)
+    {
+        if (value is string fileName)
+        {
+            return Path.GetFileNameWithoutExtension(fileName);
+        }
+
+        return "Invaild Path";
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, string language)
+    {
+        throw new NotImplementedException();
+    }
+}
 public class CountdownConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
@@ -116,3 +163,5 @@ public class EnumToBooleanConverter : IValueConverter
         throw new ArgumentException("ExceptionEnumToBooleanConverterParameterMustBeAnEnumName");
     }
 }
+
+

@@ -118,7 +118,7 @@ public class SpocService : ISpocService
         return res;
     }
 
-    public async Task<string> DownloadAttachment(string AttachmentName, string cclj, string DowloadDir)
+    public async Task<string> DownloadAttachment(string AttachmentName, string cclj, string DowloadDir, IProgress<int> progress)
     {
         var fileName = Path.GetFileName(AttachmentName).ToLower(); // 将文件名中的后缀名部分转换为小写
         var filePath = Path.Combine(DowloadDir, fileName);
@@ -131,13 +131,29 @@ public class SpocService : ISpocService
 
             var requestUrl = $"{downloadUrl}?fjmc={encodedFJMC}&cclj={encodedCCLJ}";
 
-            var response = await client.GetAsync(requestUrl);
+            var response = await client.GetAsync(requestUrl, HttpCompletionOption.ResponseHeadersRead);
             if (response.IsSuccessStatusCode)
             {
-                var content = await response.Content.ReadAsByteArrayAsync();
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                var contentLength = response.Content.Headers.ContentLength; 
+                using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None, 4096, true))
                 {
-                    await fileStream.WriteAsync(content);
+                    using (var stream = await response.Content.ReadAsStreamAsync())
+                    {
+                        var buffer = new byte[4096];
+                        var totalBytesRead = 0L;
+                        var bytesRead = 0;
+                        while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                        {
+                            await fileStream.WriteAsync(buffer, 0, bytesRead);
+                            totalBytesRead += bytesRead;
+
+                            if (contentLength.HasValue)
+                            {
+                                var percentage = (int)Math.Round((double)totalBytesRead / contentLength.Value * 100);
+                                progress?.Report(percentage);
+                            }
+                        }
+                    }
                 }
                 Debug.WriteLine($"文件已保存至 {filePath}");
 
@@ -290,18 +306,18 @@ public class SpocService : ISpocService
         await Task.WhenAll(tasks);
         var res = CourseList.Where(course => course.CourseFiles.Count > 0).ToList();
 
-        foreach (var course in res)
-        {
-            if (course.CourseFiles.Count > 0)
-            {
-                Debug.WriteLine($"{course.Name}:{course.CourseFiles.Count}");
-                //continue;
-            }
-            foreach (var courseFile in course.CourseFiles)
-            {
-                Debug.WriteLine($"Week {courseFile.Week} {courseFile.FileName} {courseFile.CreateDate}");
-            }
-        }
+        //foreach (var course in res)
+        //{
+        //    if (course.CourseFiles.Count > 0)
+        //    {
+        //        Debug.WriteLine($"{course.Name}:{course.CourseFiles.Count}");
+        //        //continue;
+        //    }
+        //    foreach (var courseFile in course.CourseFiles)
+        //    {
+        //        Debug.WriteLine($"Week {courseFile.Week} {courseFile.FileName} {courseFile.CreateDate}");
+        //    }
+        //}
 
         return res;
     }

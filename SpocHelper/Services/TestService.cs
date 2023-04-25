@@ -97,7 +97,7 @@ public static class TestService
         }
     }
 
-    public static async Task<string> DownloadAttachment(string AttachmentName, string cclj, string DowloadDir)
+    public static async Task<string> DownloadAttachment(string AttachmentName, string cclj, string DowloadDir, IProgress<int> progress)
     {
         var fileName = Path.GetFileName(AttachmentName).ToLower(); // 将文件名中的后缀名部分转换为小写
         var filePath = Path.Combine(DowloadDir, fileName);

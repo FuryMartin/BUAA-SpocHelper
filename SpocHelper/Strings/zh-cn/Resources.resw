@@ -266,4 +266,7 @@
   <data name="Hour" xml:space="preserve">
     <value>小时</value>
   </data>
+  <data name="Shell_CourseFile.Content" xml:space="preserve">
+    <value>课程资料</value>
+  </data>
 </root>

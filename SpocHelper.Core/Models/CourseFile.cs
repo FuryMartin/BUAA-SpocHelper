@@ -16,7 +16,10 @@ public class CourseFile
     public string FileID;
 
     [JsonProperty("zlmc")]
-    public string FileName;
+    public string FileName
+    {
+        get; set;
+    }
 
     [JsonProperty("lx")] //意义不明，有时为1，有时为Null
     public string Lx;
@@ -32,10 +35,10 @@ public class CourseFile
     public DateTime CreateDate;
 
     [JsonProperty("zlsize")]
-    public string FileSize;
+    public string FileSize { get; set; }
 
     [JsonProperty("zjmc")]
-    public string ClassTime;
+    public string ClassTime { get; set; }
     public string Week => Regex.Match(ClassTime, @"第(\d+)周").Groups[1].Value;
 
     [JsonProperty("sjly")] //意义不明

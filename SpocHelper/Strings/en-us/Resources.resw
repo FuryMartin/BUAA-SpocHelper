@@ -261,4 +261,7 @@ your BUAA account at first</value>
   <data name="Hour" xml:space="preserve">
     <value>Hour</value>
   </data>
+  <data name="Shell_CourseFile.Content" xml:space="preserve">
+    <value>Course Docs</value>
+  </data>
 </root>
