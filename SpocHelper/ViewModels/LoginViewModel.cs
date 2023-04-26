@@ -47,7 +47,7 @@ public partial class LoginViewModel : ObservableRecipient, INavigationAware
         SSOLoginAsyncDelegate loginAsyncDelegate;
         if (Account.IsTestAccount())
         {
-            loginAsyncDelegate = TestService.TestLogin;
+            loginAsyncDelegate = TestService.Login;
         }
         else
         {

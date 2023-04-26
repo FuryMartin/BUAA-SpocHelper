@@ -62,7 +62,7 @@ public partial class CourseFileViewModel : ObservableRecipient, INavigationAware
         GetCourseListAsyncDelegate getCourseListAsync;
         if (Account.IsTestAccount())
         {
-            getCourseListAsync = TestService.GetCourseListAsync;
+            getCourseListAsync = TestService.GetCourseFileList;
         }
         else
         {

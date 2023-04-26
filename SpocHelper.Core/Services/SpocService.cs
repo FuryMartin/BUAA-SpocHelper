@@ -308,20 +308,6 @@ public class SpocService : ISpocService
         }
         await Task.WhenAll(tasks);
         var res = CourseList.Where(course => course.CourseFiles.Count > 0).ToList();
-
-        //foreach (var course in res)
-        //{
-        //    if (course.CourseFiles.Count > 0)
-        //    {
-        //        Debug.WriteLine($"{course.Name}:{course.CourseFiles.Count}");
-        //        //continue;
-        //    }
-        //    foreach (var courseFile in course.CourseFiles)
-        //    {
-        //        Debug.WriteLine($"Week {courseFile.Week} {courseFile.FileName} {courseFile.CreateDate}");
-        //    }
-        //}
-
         return res;
     }
 

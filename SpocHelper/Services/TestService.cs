@@ -10,7 +10,10 @@ namespace SpocHelper.Services;
 
 public static class TestService
 {
-    private static readonly HttpClient client = SSOService.GetHttpClient();
+    private static readonly HttpClient client = new()
+    {
+        BaseAddress = new Uri("http://47.115.210.183:5000")
+    };
     private static JObject CourseListJson
     {
         get; set;
@@ -30,7 +33,7 @@ public static class TestService
         CourseList = new List<Course>();
     }
 
-    public static async Task<bool> TestLogin()
+    public static async Task<bool> Login()
     {
 
         var values = new Dictionary<string, string>
@@ -39,7 +42,7 @@ public static class TestService
                 { "password", Account.Password}
             };
         var content = new FormUrlEncodedContent(values);
-        var response = await client.PostAsync("http://47.115.210.183:5000/account", content);
+        var response = await client.PostAsync("/account", content);
         var responseText = await response.Content.ReadAsStringAsync();
         if (responseText == "1")
             return true;
@@ -52,7 +55,7 @@ public static class TestService
     {
         var data = new { kcmcTab = "", xnxq = "", sfzjkc = 0 };
         var httpContent = new StringContent(JsonConvert.SerializeObject(data));
-        var response = await client.PostAsync("http://47.115.210.183:5000/courses", httpContent);
+        var response = await client.PostAsync("/courses", httpContent);
         var responseText = await response.Content.ReadAsStringAsync();
         CourseListJson = JObject.Parse(responseText) ?? throw new Exception("Response is Null");
         var obj = JObject.Parse(responseText)["result"] ?? throw new Exception("Response Result is Null");
@@ -79,7 +82,7 @@ public static class TestService
                 { "bjdm", course.Bjdm}
             };
             var content = new FormUrlEncodedContent(values);
-            var response = await client.PostAsync("http://47.115.210.183:5000/homeworks", content);
+            var response = await client.PostAsync("/homeworks", content);
             var responseText = await response.Content.ReadAsStringAsync();
             var obj = JObject.Parse(responseText)["result"] ?? throw new Exception("Response is Null");
             CourseList[i].HomeworkList = JsonConvert.DeserializeObject<List<Homework>>(obj.ToString());
@@ -104,29 +107,48 @@ public static class TestService
 
         if (!File.Exists(filePath))
         {
-            var downloadUrl = "http://47.115.210.183:5000/download";
+            var downloadUrl = "/download";
             var requestUrl = $"{downloadUrl}?fjmc={AttachmentName}&cclj={cclj}";
 
-            var response = await client.GetAsync(requestUrl);
+            var response = await client.GetAsync(requestUrl, HttpCompletionOption.ResponseHeadersRead);
             if (response.IsSuccessStatusCode)
             {
-                var content = await response.Content.ReadAsByteArrayAsync();
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                var contentLength = response.Content.Headers.ContentLength;
+                using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None, 262144, true))
                 {
-                    await fileStream.WriteAsync(content);
+                    using var stream = await response.Content.ReadAsStreamAsync();
+                    var buffer = new byte[262144]; //256KB per buffer
+                    var totalBytesRead = 0L;
+                    var bytesRead = 0;
+                    var lastPercentage = 0;
+                    while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                    {
+                        await fileStream.WriteAsync(buffer, 0, bytesRead);
+                        totalBytesRead += bytesRead;
+
+                        if (contentLength.HasValue)
+                        {
+                            var percentage = (int)Math.Round((double)totalBytesRead / contentLength.Value * 100);
+                            if (percentage > lastPercentage)
+                            {
+                                progress?.Report(percentage);
+                            }
+                            lastPercentage = percentage;
+                        }
+                    }
                 }
                 Debug.WriteLine($"文件已保存至 {filePath}");
 
                 return filePath;
             }
-            throw new Exception("Download Failed");
+            throw new Exception("Download Error");
         }
         return filePath;
     }
 
     public static async Task UploadFile(string filePath, string CourseID)
     {
-        var uploadURL = "http://47.115.210.183:5000/upload";
+        var uploadURL = "/upload";
 
         var content = new MultipartFormDataContent();
         var fileName = Path.GetFileName(filePath);
@@ -150,18 +172,45 @@ public static class TestService
             {"zjdm",  detail.zjdm },
             {"kcdm",  detail.kcdm },
             {"zynrdm", detail.kcnr },
-            {"zynr", String.Empty },
+            {"zynr", string.Empty },
             {"zyfjPath", zyfjPath },
             {"zyfjFileName", zyfjFileName },
             {"zyzt", "1" }
         };
-        var urlSubmit = "http://47.115.210.183:5000/submit";
+        var urlSubmit = "/submit";
         var content = new FormUrlEncodedContent(contentDictionary);
         var response = await client.PostAsync(urlSubmit, content);
         var responseText = await response.Content.ReadAsStringAsync();
         Debug.WriteLine(responseText);
 
         return true;
+    }
+
+    public static async Task<IEnumerable<Course>> GetCourseFileList()
+    {
+        List<Task> tasks = new();
+        foreach (var course in CourseList)
+        {
+            tasks.Add(Task.Run(async () =>
+            {
+                var contentDictionary = new Dictionary<string, string>
+                {
+                    {"kcdm",  course.Id },
+                    {"zlmcTab", string.Empty},
+                };
+                var urlFile = "/files";
+                var content = new FormUrlEncodedContent(contentDictionary);
+                var response = await client.PostAsync(urlFile, content);
+                var responseText = await response.Content.ReadAsStringAsync();
+                var obj = JObject.Parse(responseText)["result"] ?? throw new Exception("Response is Null");
+                course.CourseFiles = JsonConvert.DeserializeObject<List<CourseFile>>(obj.ToString());
+                course.CourseFiles?.RemoveAll(courseFile => !course.TeacherName.Contains(courseFile.Creator));
+                course.CourseFiles = course.CourseFiles?.GroupBy(x => x.FileName).Select(x => x.First()).OrderBy(x => x.FileName).ThenBy(x => x.ClassTime).ToList();
+            }));
+        }
+        await Task.WhenAll(tasks);
+        var res = CourseList.Where(course => course.CourseFiles.Count > 0).ToList();
+        return res;
     }
 
 }
