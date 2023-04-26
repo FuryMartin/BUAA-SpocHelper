@@ -21,11 +21,6 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
     private delegate Task UploadFileDelegate(string filePath, string CourseID);
     private delegate Task<bool> SubmitHomeworkDelegate(HomeworkDetails detail);
 
-    public Progress<int> downloadProgress
-    {
-        get; set;
-    }
-
     [ObservableProperty]
     public bool pageLoading = true;
 
@@ -42,7 +37,6 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
     public HomeworkViewModel()
     {
         Courses = new ObservableCollection<Course>();
-        downloadProgress = new Progress<int> ();
     }
 
     public void OnNavigatedFrom()
@@ -148,7 +142,7 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
             throw new Exception("CCLJ, Filename or downloadDir Maybe NULL");
         }
 
-        var filePath = await downloadAttachment(filename, cclj, downloadDir, downloadProgress);
+        var filePath = await downloadAttachment(filename, cclj, downloadDir, new Progress<int>());
         var file = await Windows.Storage.StorageFile.GetFileFromPathAsync(filePath);
         _ = await Launcher.LaunchFileAsync(file);
     }

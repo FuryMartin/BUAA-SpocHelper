@@ -13,10 +13,6 @@ namespace SpocHelper.ViewModels;
 public partial class CourseFileViewModel : ObservableRecipient, INavigationAware
 {
     private readonly ISpocService spocService = new SpocService();
-    public Progress<int> downloadProgress
-    {
-        get; set; 
-    }
 
     private delegate Task<string> DownloadAttachmentDelegate(string AttachmentName, string cclj, string DowloadDir, IProgress<int> progress);
     private delegate Task<IEnumerable<Course>> GetCourseListAsyncDelegate();
@@ -28,7 +24,6 @@ public partial class CourseFileViewModel : ObservableRecipient, INavigationAware
     public CourseFileViewModel()
     {
         Courses = new ObservableCollection<Course>();
-        downloadProgress = new Progress<int>();
     }
 
 
@@ -75,7 +70,7 @@ public partial class CourseFileViewModel : ObservableRecipient, INavigationAware
         }
 
         var CourseList = await getCourseListAsync();
-        if (CourseList.Count() != 0)
+        if (CourseList.Any())
         {
             foreach (var course in CourseList)
             {
@@ -88,7 +83,7 @@ public partial class CourseFileViewModel : ObservableRecipient, INavigationAware
         }
     }
 
-    public async void AttachmentClicked(CourseFile courseFile)
+    public async Task AttachmentClicked(CourseFile courseFile, Progress<int> progress)
     {
         DownloadAttachmentDelegate downloadAttachment;
         if (Account.IsTestAccount())
@@ -109,7 +104,7 @@ public partial class CourseFileViewModel : ObservableRecipient, INavigationAware
             throw new Exception("CCLJ, Filename or downloadDir Maybe NULL");
         }
 
-        var filePath = await downloadAttachment(filename, cclj, downloadDir, downloadProgress);
+        var filePath = await downloadAttachment(filename, cclj, downloadDir, progress);
         var file = await Windows.Storage.StorageFile.GetFileFromPathAsync(filePath);
         _ = await Launcher.LaunchFileAsync(file);
     }

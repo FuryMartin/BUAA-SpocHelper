@@ -135,23 +135,26 @@ public class SpocService : ISpocService
             if (response.IsSuccessStatusCode)
             {
                 var contentLength = response.Content.Headers.ContentLength; 
-                using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None, 4096, true))
+                using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None, 262144, true))
                 {
-                    using (var stream = await response.Content.ReadAsStreamAsync())
+                    using var stream = await response.Content.ReadAsStreamAsync();
+                    var buffer = new byte[262144]; //256KB per buffer
+                    var totalBytesRead = 0L;
+                    var bytesRead = 0;
+                    var lastPercentage = 0;
+                    while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
                     {
-                        var buffer = new byte[4096];
-                        var totalBytesRead = 0L;
-                        var bytesRead = 0;
-                        while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
-                        {
-                            await fileStream.WriteAsync(buffer, 0, bytesRead);
-                            totalBytesRead += bytesRead;
+                        await fileStream.WriteAsync(buffer, 0, bytesRead);
+                        totalBytesRead += bytesRead;
 
-                            if (contentLength.HasValue)
+                        if (contentLength.HasValue)
+                        {
+                            var percentage = (int)Math.Round((double)totalBytesRead / contentLength.Value * 100);
+                            if (percentage > lastPercentage)
                             {
-                                var percentage = (int)Math.Round((double)totalBytesRead / contentLength.Value * 100);
                                 progress?.Report(percentage);
                             }
+                            lastPercentage = percentage;
                         }
                     }
                 }

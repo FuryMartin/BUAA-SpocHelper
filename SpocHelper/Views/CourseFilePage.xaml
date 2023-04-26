@@ -56,11 +56,13 @@
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="70"/>
+              <ColumnDefinition Width="30"/>
           </Grid.ColumnDefinitions>
                 <ImageIcon Source="{Binding FileName, Converter={StaticResource IconPathConverter}}" Grid.Column="0" Margin="-6 0 0 0" Width="20"/>
                 <HyperlinkButton Content="{Binding FileName, Converter={StaticResource FileNameConverter}}" HorizontalContentAlignment="Left"  Grid.Column="1" Grid.Row="0" Margin="-30 0 30 0"  HorizontalAlignment="Stretch" Foreground="{ThemeResource TextFillColorPrimaryBrush}" Click="AttachmentClick" ToolTipService.ToolTip="{Binding ClassTime}"/>
                 <TextBlock Text="{Binding FileSize}" Grid.Column="2" VerticalAlignment="Center"/>
+                <ProgressRing Grid.Column="3" Width="20" Height="20" VerticalAlignment="Center" IsIndeterminate="False"/>
             </Grid>
       </DataTemplate>
       <StackLayout x:Name="VerticalStackLayout" Orientation="Vertical" Spacing="8"/>
@@ -71,7 +73,7 @@
                 HorizontalScrollMode="Auto"
                 VerticalScrollBarVisibility="Auto"
                 IsVerticalScrollChainingEnabled="False"
-                MaxWidth="700"
+                MaxWidth="800"
                 VerticalAlignment="Stretch"
                 HorizontalAlignment="Stretch">
             <Grid>
