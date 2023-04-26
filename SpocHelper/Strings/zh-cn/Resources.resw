@@ -269,4 +269,7 @@
   <data name="Shell_CourseFile.Content" xml:space="preserve">
     <value>课程资料</value>
   </data>
+  <data name="DocNumber.Text" xml:space="preserve">
+    <value>资料数：</value>
+  </data>
 </root>

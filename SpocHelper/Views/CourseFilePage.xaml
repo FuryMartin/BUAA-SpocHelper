@@ -35,7 +35,7 @@
               </Grid.ColumnDefinitions>
               <FontIcon Grid.Column="0"  Glyph="&#xF156;" Margin="50 0 0 0 " HorizontalAlignment="Center"/>
               <TextBlock Grid.Column="1"  Text="{Binding Name}" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center"/>
-              <TextBlock Text="资料数：" Grid.Column="2"  FontSize="14" HorizontalAlignment="Right"/>
+              <TextBlock x:Uid="DocNumber" Grid.Column="2"  FontSize="14" HorizontalAlignment="Right"/>
               <TextBlock Grid.Column="3"  Text="{Binding CourseFiles.Count}"  FontSize="14" HorizontalAlignment="Left"/>
             </Grid>
           </Expander.Header>
