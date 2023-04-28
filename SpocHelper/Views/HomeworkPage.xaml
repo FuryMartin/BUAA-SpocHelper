@@ -28,7 +28,7 @@
         <converters:BoolToObjectConverter x:Key="InverseBoolToVisibilityConverter" TrueValue="Collapsed" FalseValue="Visible"/>
         <converters:BoolToObjectConverter x:Key="InverseBoolConverter" TrueValue="false" FalseValue="true"/>
         <converters:BoolToObjectConverter x:Key="ReSubmitDescriptionConverter" TrueValue="{x:Bind ViewModel.ReSubmitEnabledDescription}" FalseValue="{x:Bind ViewModel.ReSubmitDisabledDescription}"/>
-        
+
         <DataTemplate x:Key="CourseTemplate" x:DataType="models:Course">
             <Expander x:Name="Expander" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="0">
                 <Expander.Header>
@@ -49,7 +49,7 @@
                     </Grid>
                 </Expander.Header>
                 <Expander.Content>
-                    <ItemsRepeater x:Name="HomeworkDetailList"
+                    <ItemsRepeater x:Name="HomeworkList"
               ItemsSource="{Binding HomeworkList}"
               Layout="{StaticResource VerticalStackLayout}"
               ItemTemplate="{StaticResource HomeworkTemplate}" />
@@ -57,7 +57,14 @@
             </Expander>
         </DataTemplate>
 
-        <DataTemplate x:Key="HomeworkTemplate" x:DataType="models:Homework">
+        <DataTemplate x:Key="HomeworkTemplate" x:DataType="models:Homework" >
+            <ItemsRepeater x:Name="HomeworkDetailsList" 
+                ItemsSource="{Binding Details}"
+                Layout="{StaticResource VerticalStackLayout}"
+                ItemTemplate="{StaticResource HomeworkDetailsTemplate}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="HomeworkDetailsTemplate" x:DataType="models:HomeworkDetails">
             <Grid HorizontalAlignment="Stretch" Margin="20 5 20 5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -67,9 +74,9 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="180"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Margin="-10 0 0 0" Text="{Binding Details[0].EndDate, Converter={StaticResource CountdownConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTipService.ToolTip="{Binding Details[0].EndDate}"  Style="{StaticResource BodyStrongTextBlockStyle}"/>
-                <HyperlinkButton x:Uid="AttachmentButton" Grid.Column="1" Grid.Row="0" Margin="0 0 40 0" IsEnabled="{Binding Details[0].AttachmentExisted}" ToolTipService.ToolTip="{Binding Details[0], Converter={StaticResource HomeworkDescriptionConverter}}" Visibility="{Binding Details[0].AttachmentExisted, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center" Click="AttachmentClick"/>
-                <TextBlock x:Uid="FakeAttachmentButton" Grid.Column="1" Grid.Row="0" Margin="0 0 40 0" Text="附件" Visibility="{Binding Details[0].AttachmentExisted, Converter={StaticResource InverseBoolToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Gray" ToolTipService.ToolTip="{Binding Details[0], Converter={StaticResource HomeworkDescriptionConverter}}"/>
+                <TextBlock Grid.Column="0" Margin="-10 0 0 0" Text="{Binding EndDate, Converter={StaticResource CountdownConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTipService.ToolTip="{Binding EndDate}"  Style="{StaticResource BodyStrongTextBlockStyle}"/>
+                <HyperlinkButton x:Uid="AttachmentButton" Grid.Column="1" Grid.Row="0" Margin="0 0 40 0" IsEnabled="{Binding AttachmentExisted}" ToolTipService.ToolTip="{Binding Converter={StaticResource HomeworkDescriptionConverter}}" Visibility="{Binding AttachmentExisted, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center" Click="AttachmentClick"/>
+                <TextBlock x:Uid="FakeAttachmentButton" Grid.Column="1" Grid.Row="0" Margin="0 0 40 0" Text="附件" Visibility="{Binding AttachmentExisted, Converter={StaticResource InverseBoolToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Gray" ToolTipService.ToolTip="{Binding Converter={StaticResource HomeworkDescriptionConverter}}"/>
                 <Grid Grid.Column="2" Grid.Row="0" Margin="0 0 0 0" ColumnSpacing="8">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -80,8 +87,8 @@
                         <ColumnDefinition Width="40"/>
                     </Grid.ColumnDefinitions>
                     <Button x:Uid="ChooseFileButton" Grid.Column="0" Margin="0" Content="Choose" HorizontalAlignment="Center" Click="FilePickClick" ToolTipService.ToolTip=""/>
-                    <Button x:Uid="SubmitButton" Grid.Column="1" Margin="0" Style="{StaticResource AccentButtonStyle}"  HorizontalAlignment="Center" Click="SubmitClick" ToolTipService.ToolTip="{Binding Details[0].ResubmitEnable, Converter={StaticResource ReSubmitDescriptionConverter}}" Visibility="{Binding Details[0].ResubmitEnable, Converter={StaticResource BoolToVisibilityConverter}}" IsEnabled="{Binding Details[0].ResubmitEnable}"/>
-                    <Button x:Uid="SubmitButtonWithFlyout" Grid.Column="1" Margin="0" Style="{StaticResource AccentButtonStyle}"  HorizontalAlignment="Center" ToolTipService.ToolTip="{Binding Details[0].ResubmitEnable, Converter={StaticResource ReSubmitDescriptionConverter}}" Visibility="{Binding Details[0].ResubmitEnable, Converter={StaticResource InverseBoolToVisibilityConverter}}" IsEnabled="{Binding Details[0].ResubmitEnable, Converter={StaticResource InverseBoolConverter}}">
+                    <Button x:Uid="SubmitButton" Grid.Column="1" Margin="0" Style="{StaticResource AccentButtonStyle}"  HorizontalAlignment="Center" Click="SubmitClick" ToolTipService.ToolTip="{Binding ResubmitEnable, Converter={StaticResource ReSubmitDescriptionConverter}}" Visibility="{Binding ResubmitEnable, Converter={StaticResource BoolToVisibilityConverter}}" IsEnabled="{Binding ResubmitEnable}"/>
+                    <Button x:Uid="SubmitButtonWithFlyout" Grid.Column="1" Margin="0" Style="{StaticResource AccentButtonStyle}"  HorizontalAlignment="Center" ToolTipService.ToolTip="{Binding ResubmitEnable, Converter={StaticResource ReSubmitDescriptionConverter}}" Visibility="{Binding ResubmitEnable, Converter={StaticResource InverseBoolToVisibilityConverter}}" IsEnabled="{Binding ResubmitEnable, Converter={StaticResource InverseBoolConverter}}">
                         <Button.Flyout>
                             <Flyout>
                                 <StackPanel>
@@ -92,7 +99,7 @@
                         </Button.Flyout>
                     </Button>
 
-                    <FontIcon x:Uid="WasCommitedIcon" Grid.Column="2" Glyph="&#xF16C;" Margin="0 0 20 0" VerticalAlignment="Center" Foreground="green" Visibility="{Binding Details[0].WasSubmitted, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <FontIcon x:Uid="WasCommitedIcon" Grid.Column="2" Glyph="&#xF16C;" Margin="0 0 20 0" VerticalAlignment="Center" Foreground="green" Visibility="{Binding WasSubmitted, Converter={StaticResource BoolToVisibilityConverter}}">
                         <ToolTipService.ToolTip>
                             <ToolTip x:Uid="WasCommitedTooTip"/>
                         </ToolTipService.ToolTip>
@@ -122,7 +129,7 @@
                        Layout="{StaticResource VerticalStackLayout}"
                        ItemTemplate="{StaticResource CourseTemplate}" />
                 <RelativePanel Grid.Row="1" VerticalAlignment="Stretch" Margin="{StaticResource NavigationViewPageContentMargin}" Visibility="{x:Bind ViewModel.AllDone, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                     <Image
+                    <Image
                         x:Name="StatusIcon"
                         Width="114"
                         Height="114"
@@ -136,7 +143,7 @@
                         RelativePanel.AlignHorizontalCenterWithPanel="True"
                         RelativePanel.Below="{x:Bind StatusIcon}"
                         TextAlignment="Center"
-                        TextWrapping="WrapWholeWords" />    
+                        TextWrapping="WrapWholeWords" />
                 </RelativePanel>
                 <ProgressRing Grid.Row="1"
                     Width="48"

@@ -90,7 +90,7 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
         }
     }
 
-    public async Task<bool> SubmitClicked(Homework homework)
+    public async Task<bool> SubmitClicked(HomeworkDetails homeworkDetails)
     {
         SubmitHomeworkDelegate submitHomework;
         if (Account.IsTestAccount())
@@ -103,12 +103,12 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
         }
 
         Debug.WriteLine("Clicked");
-        if (homework.Details[0].FilePathToUpload == null)
+        if (homeworkDetails.FilePathToUpload == null)
         {
             await dialogService.ShowConfirmationDialog("SubmitError".GetLocalized(), "FileUnselected".GetLocalized());
             return false;
         }
-        var res = await submitHomework(homework.Details[0]);
+        var res = await submitHomework(homeworkDetails);
         if (res)
         {
             await dialogService.ShowConfirmationDialog("SubmitSuccess".GetLocalized(), "SubmitCongratulation".GetLocalized());
@@ -121,7 +121,7 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
         return res;
     }
 
-    public async void AttachmentClicked(Homework? homework)
+    public async void AttachmentClicked(HomeworkDetails? homeworkDetails)
     {
         DownloadAttachmentDelegate downloadAttachment;
         if (Account.IsTestAccount())
@@ -134,8 +134,8 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
         }
 
         var downloadDir = CustomSettingsService.GetDownloadDir();
-        var filename = homework?.Details[0].AttachmentName;
-        var cclj = homework?.Details[0].cclj;
+        var filename = homeworkDetails?.AttachmentName;
+        var cclj = homeworkDetails?.cclj;
 
         if (cclj == null || filename == null || downloadDir == null)
         {
@@ -147,7 +147,7 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
         _ = await Launcher.LaunchFileAsync(file);
     }
 
-    public async void UploadFile(Homework homework, string filePath)
+    public async void UploadFile(HomeworkDetails homeworkDetails, string filePath)
     {
         UploadFileDelegate uploadFile;
         if (Account.IsTestAccount())
@@ -159,8 +159,8 @@ public partial class HomeworkViewModel : ObservableRecipient, INavigationAware
             uploadFile = spocService.UploadFile;
         }
 
-        var courseID = homework.CourseID;
-        homework.Details[0].FilePathToUpload = filePath;
+        var courseID = homeworkDetails.kcdm;
+        homeworkDetails.FilePathToUpload = filePath;
         await uploadFile(filePath, courseID);
     }
 }
