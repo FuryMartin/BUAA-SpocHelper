@@ -1,4 +1,5 @@
-﻿<p align="center">
+
+<p align="center">
     <img width="128" align="center" src="SpocHelper/Assets/Icon.png">
 </p>
 <h1 align="center" style="font-weight: bold">
@@ -26,6 +27,11 @@
 
 
 ![ScreenShot](.github/images/HomeworkList.png)
+
+## ⚠️ 警告
+由于相关接口变更，毕业无法维护，目前无法保证相关功能正常，请谨慎使用。
+
+若您有意参与维护，可 fork 本仓库后进行 PR。
 
 ## 📑 简介
 
